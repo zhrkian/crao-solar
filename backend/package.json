@@ -1,0 +1,24 @@
+{
+  "name": "crao-solar-backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "PORT=3300 node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "co": "4.6.0",
+    "co-express": "1.2.2",
+    "connect-redis": "^3.2.0",
+    "express": "4.14.0",
+    "express-session": "^1.15.3",
+    "google-spreadsheet": "^2.0.3",
+    "moment": "^2.18.1",
+    "mongoose": "4.8.1",
+    "morgan": "1.7.0",
+    "needle": "^1.6.0",
+    "redis": "^2.7.1",
+    "requestify": "^0.2.5",
+    "underscore": "^1.8.3"
+  }
+}

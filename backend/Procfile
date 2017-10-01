@@ -1,0 +1,7 @@
+web: node ./bin/www
+dev: supervisor ./bin/www
+
+setup-deploy: rm -rf ../backend-dist && cd .. && git clone ssh://deployer@alpha.cloud.argh.team/home/deployer/repos/zima-backend.git backend-dist && cd backend && chmod +x deploy
+setup-deploy-prod: cd ../backend-dist && git remote add prod ssh://deployer@aion.tyfoon.io/home/deployer/repos/zima-backend.git
+deploy: ./deploy ssh://deployer@alpha.cloud.argh.team/home/deployer/repos/zima-backend.git
+deploy-prod: ./deploy ssh://deployer@aion.tyfoon.io/home/deployer/repos/zima-backend.git
