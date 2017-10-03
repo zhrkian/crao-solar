@@ -7,9 +7,11 @@
   },
   "dependencies": {
     "body-parser": "1.15.2",
+    "cheerio-tableparser": "^1.0.1",
     "co": "4.6.0",
     "co-express": "1.2.2",
     "connect-redis": "^3.2.0",
+    "crawler": "^1.0.5",
     "express": "4.14.0",
     "express-session": "^1.15.3",
     "google-spreadsheet": "^2.0.3",
