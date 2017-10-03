@@ -11,7 +11,6 @@ class ApplicationBar extends Component {
   render() {
     const { classes } = this.props
     const { title } = this.props.location.state || {}
-
     return (
       <div className={classes.root}>
         <AppBar position='static' color={'inherit'}>
@@ -28,8 +27,7 @@ class ApplicationBar extends Component {
                      }}
                      className={classes.link}
                      activeClassName={classes.activeLink}>Grabbed Data</NavLink>
-            <NavLink exact
-                     to={{
+            <NavLink to={{
                        pathname: '/jobs',
                        state: {
                          title: 'Jobs'
@@ -37,8 +35,7 @@ class ApplicationBar extends Component {
                      }}
                      className={classes.link}
                      activeClassName={classes.activeLink}>Jobs</NavLink>
-            <NavLink exact
-                     to={{
+            <NavLink to={{
                        pathname: '/sunspots',
                        state: {
                          title: 'Sunspots'
