@@ -10,14 +10,14 @@ import s from './AppBar.styles'
 class ApplicationBar extends Component {
   render() {
     const { classes } = this.props
-    const { title } = this.props.location.state
+    const { title } = this.props.location.state || {}
 
     return (
       <div className={classes.root}>
         <AppBar position='static' color={'inherit'}>
           <Toolbar>
             <Typography type='title' color='inherit' className={classes.flex}>
-              <strong>{ title }</strong>
+              { title }
             </Typography>
             <NavLink exact
                      to={{

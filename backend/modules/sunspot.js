@@ -67,7 +67,7 @@ const update = (number, kind, date, options) =>
 
 const index = () =>
   co(function *(){
-    return yield Sunspot.find({})
+    return yield Sunspot.find({}).sort({ createdAt: -1 })
   })
 
 module.exports = {

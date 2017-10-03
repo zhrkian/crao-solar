@@ -8,6 +8,8 @@ import SunspotFiltersDefault from '../components/SunspotFilters'
 
 const columns = [
   { id: 'number', disablePadding: true, label: 'NOAA Number' },
+  { id: 'first_seen', disablePadding: true, label: 'First seen' },
+  { id: 'last_seen', disablePadding: true, label: 'Last seen' },
   { id: 'days', disablePadding: true, label: 'Visible (Days)' },
   { id: 'position', disablePadding: true, label: 'Position info' },
   { id: 'hale_class', disablePadding: true, label: 'Hale Class Info' },

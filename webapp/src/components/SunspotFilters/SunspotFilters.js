@@ -14,14 +14,16 @@ const FlareClassFilter = ({ flareClasses, onChange }) => {
     }
     return onChange(flareClasses.filter(c => c !== value))
   }
+  const filterLegendText = flareClasses && flareClasses.length ? `(sunspots with flares ${flareClasses.join(', ')})` : ''
 
   return (
     <FormControl component='fieldset'>
-      <FormLabel component='legend'>Flare class</FormLabel>
+      <FormLabel component='legend'>{`Flare class ${filterLegendText}`}</FormLabel>
       <FormGroup row>
         {
           FLARE_CLASSES.map(c => (
             <FormControlLabel
+              key={c}
               control={
                 <Checkbox
                   checked={flareClasses.indexOf(c) > -1}

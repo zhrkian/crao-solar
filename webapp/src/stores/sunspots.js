@@ -3,16 +3,14 @@ import { computedAsync } from 'computed-async-mobx'
 import axios from 'axios'
 import Sunspot from './sunspot'
 
-console.log(computedAsync)
-
 const flareFilter = (sunspot, filter) => {
   if (!filter || !filter.length) return true
 
   if (!sunspot.flares || !Object.keys(sunspot.flares).length) return false
 
-  const filterRegexp = filter.map(c => `(?=.*${c})`).join('')
+  const filterRegexp = filter.map(c => c).join('') //`(?=.*${c})`
 
-  return JSON.stringify(sunspot.flares).match(new RegExp(filterRegexp, 'g'))
+  return JSON.stringify(sunspot.flares).match(new RegExp(`[${filterRegexp}]`, 'g'))
 }
 
 const emptyFilters = { flareClasses: [] }

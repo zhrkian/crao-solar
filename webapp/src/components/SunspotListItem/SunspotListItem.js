@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withStyles } from 'material-ui/styles'
+import { withRouter } from 'react-router-dom'
 import { inject, observer } from 'mobx-react'
 import moment from 'moment'
 import Checkbox from 'material-ui/Checkbox'
@@ -15,6 +16,7 @@ const params = [
   { field: 'flares', label: 'Flares Info' }
 ]
 
+@withRouter
 @inject((stores, props) => {
   return {
     toggleSelected: () => props.sunspot.toggleSelected()
@@ -42,6 +44,8 @@ class SunspotListItem extends Component {
                     onClick={event => toggleSelected()}/>
         </TableCell>
         <TableCell padding='none'>{ `NOAA${sunspot.number}` }</TableCell>
+        <TableCell padding='none'>{ start_at ? moment(start_at).format('YYYY/MM/DD').toString() : null }</TableCell>
+        <TableCell padding='none'>{ end_at ? moment(end_at).format('YYYY/MM/DD').toString() : null }</TableCell>
         <TableCell>{ days }</TableCell>
         {
           params.map(param => {
