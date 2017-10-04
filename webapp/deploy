@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
 
-cd ../backend-dist
+cd ../webapp-dist
 git pull $1 master
 git rm -r *
-rm -rf *
-cd ../backend
-rsync -av ./ ../backend-dist --exclude node_modules/ --exclude .env --exclude deploy --exclude README.md --exclude test/ --exclude logs/ --exclude .jshintrc
-cd ../backend-dist
+cd ../webapp
+rm -rf dist
+mkdir dist
+npm run build
+rsync -av ./dist/ ../webapp-dist
+cd ../webapp-dist
 if [[ `git status --porcelain` ]]; then
   git add -A .
   git commit -m "Deploy"
+  git push $1 master
 else
   echo "no changes"
 fi;
-git push $1 master

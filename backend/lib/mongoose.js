@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 
-const MONGO_CONNECT = process.env.MONGO_CONNECT || "mongodb://localhost:27017/connectors"
+const MONGO_CONNECT = process.env.MONGO_CONNECT || "mongodb://localhost:27017/sola"
 
 mongoose.Promise = global.Promise
 mongoose.connect(MONGO_CONNECT)
