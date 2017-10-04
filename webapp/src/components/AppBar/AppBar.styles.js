@@ -1,5 +1,7 @@
 const styles = theme => ({
   root: {
+    position: 'fixed',
+    zIndex: 1000,
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit * 3,
     width: '100%',

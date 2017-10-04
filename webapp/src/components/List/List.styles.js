@@ -1,12 +1,9 @@
 const style = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 10,
   },
-  tableWrapper: {
-    maxHeight: '80vh',
-    overflowY: 'auto',
-  }
+  tableWrapper: {}
 })
 
 export default style

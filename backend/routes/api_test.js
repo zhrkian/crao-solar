@@ -53,7 +53,7 @@ const c = new Crawler({
 
 
 router.get('/', wrap(function *(req, res) {
-  const parseDates1 = enumerateDaysBetweenDates('2010-07-28', '2017-08-28')
+  const parseDates1 = enumerateDaysBetweenDates('2010-07-28', '2010-08-28')
 
   console.log(parseDates1)
 
