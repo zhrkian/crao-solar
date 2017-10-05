@@ -7,8 +7,6 @@ import Table, {
   TablePagination
 } from 'material-ui/Table'
 import s from './List.styles'
-import ListToolbar from '../ListToolbar'
-import ListHeader from '../ListHeader'
 
 class ListComponent extends Component {
   state = { page: 0, rowsPerPage: 25 }

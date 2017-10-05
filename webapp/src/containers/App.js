@@ -2,10 +2,12 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import DevTools from 'mobx-react-devtools'
 import GrabbedData from './GrabbedData'
-import Jobs from './Jobs'
-import Sunspot from './Sunspot'
+// import Jobs from './Jobs'
 import Sunspots from './Sunspots'
+import SunspotModal from '../components/SunspotModal'
 import AppBar from '../components/AppBar'
+
+import Jobs from '../components/Jobs'
 
 class AppSwitch extends React.Component {
   previousLocation = this.props.location
@@ -51,10 +53,10 @@ class AppSwitch extends React.Component {
           />
 
           <Route path='/sunspots/:id'
-                 state={{ back: true, defaultBack: '/sunspots' }}
-                 component={Sunspot} />
+                 state={{ modal: true, back: true, defaultBack: '/sunspots' }}
+                 component={SunspotModal} />
         </Switch>
-        { isModal ? <Route path='/sunspots/:id' component={Modal} /> : null }
+        { isModal ? <Route path='/sunspots/:id' component={SunspotModal} /> : null }
       </div>
     )
   }

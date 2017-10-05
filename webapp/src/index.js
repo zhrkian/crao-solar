@@ -6,7 +6,7 @@ import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
 import { Provider } from 'mobx-react'
 import { AppContainer } from 'react-hot-loader'
 import App from './containers/App'
-import stores from './stores/stores'
+import stores from './stores'
 
 const theme = createMuiTheme()
 

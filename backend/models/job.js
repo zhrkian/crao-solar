@@ -5,18 +5,16 @@ const Schema     = mongoose.Schema
 const createdAt  = require('../lib/mongoose-plugins/created-at')
 
 let jobSchema = new Schema({
+  name: { type: String },
   kind: { type: String },
+  options: { type: Schema.Types.Mixed  },
+  sheet_url: { type: String },
+  status: { type: String },
   finished_at: { type: Date },
-  dates: { type: Array }
+  header: { type: Schema.Types.Mixed },
+  result_table: { type: Schema.Types.Mixed  }
 })
 
 jobSchema.plugin(createdAt)
-
-jobSchema.index({
-    kind: 'text'
-  },
-  { weights: {
-    number: 1
-  }})
 
 module.exports = mongoose.model('Job', jobSchema)

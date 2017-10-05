@@ -4,6 +4,7 @@ const wrap                  = require('co-express')
 const moment                = require('moment')
 const Crawler               = require('crawler')
 
+const { writeTable }        = require('../modules/gdoc')
 const { sunspotView }       = require('../views/sunspot')
 const sunspot               = require('../modules/sunspot')
 const SolarMonitor          = require('../modules/solarmonitor')
@@ -51,7 +52,6 @@ const c = new Crawler({
   }
 })
 
-
 router.get('/', wrap(function *(req, res) {
   const parseDates1 = enumerateDaysBetweenDates('2010-07-28', '2010-08-28')
 
@@ -81,6 +81,12 @@ router.get('/', wrap(function *(req, res) {
 router.get('/list', wrap(function *(req, res) {
   const list = yield sunspot.index()
   return res.json({ success: true, sunspots: list.map(sunspotView) })
+}))
+
+
+router.get('/doc', wrap(function *(req, res) {
+  const result = yield writeTable('1ax6w66cOvCxgNUcjrCld8DIP3QWiVc0OxDMbEV8YmVg', '0', [['a', 'a', 'a', 'a', 'a', 'a']], ['a', 'a', 'a', 'a', 'a', 'a'])
+  return res.json({ success: result })
 }))
 
 module.exports = router

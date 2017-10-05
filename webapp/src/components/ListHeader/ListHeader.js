@@ -7,7 +7,7 @@ import s from './ListHeader.styles'
 const ListHeader = props => {
   const { columns, onSelectAll, selected, total } = props
   const indeterminate = selected > 0 && selected < total
-  const allSelected = selected === total
+  const allSelected = selected === total && selected > 0
   return (
     <TableHead>
       <TableRow>

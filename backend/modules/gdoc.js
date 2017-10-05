@@ -8,7 +8,7 @@ const setDocumentAuth = (docId, config) => {
     const doc = new GoogleSpreadsheet(docId)
     if (!doc) return reject()
     doc.useServiceAccountAuth(config, (err, data) => {
-      if (err) return resolve({ error: 'Error to get spread sheet. Share spreadsheet for json2spreadsheet@typhoon-land.iam.gserviceaccount.com e-mail' })
+      if (err) return resolve({ error: `Error to get spread sheet. Share spreadsheet for ${conf.client_email} e-mail` })
       return resolve(doc)
     })
   })
@@ -17,7 +17,7 @@ const setDocumentAuth = (docId, config) => {
 const getDocumentInfo = doc => {
   return new Promise((resolve, reject) => {
     doc.getInfo((err, info) => {
-      if (err) return resolve({ error: 'Error to get spread sheet info. Share spreadsheet for json2spreadsheet@typhoon-land.iam.gserviceaccount.com e-mail' }) & console.log('getDocumentInfo REJECT', err)
+      if (err) return resolve({ error: `Error to get spread sheet info. Share spreadsheet for ${conf.client_email} e-mail` }) & console.log('getDocumentInfo REJECT', err)
       return resolve(info)
     })
   })

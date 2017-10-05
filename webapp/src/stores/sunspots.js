@@ -48,6 +48,10 @@ export default class Sunspots {
     this.sunspots.forEach(sunspot => sunspot.selected = value)
   }
 
+  findById (id) {
+    return computed(() => this.sunspots.find(sunspot => sunspot.id == id)).get()
+  }
+
   @computed
   get filtered () {
     return this.sunspots.filter(sunspot => {

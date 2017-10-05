@@ -30,10 +30,16 @@ class SunspotListItem extends Component {
     const { start_at, end_at } = sunspot
     const days = start_at && end_at ? moment(end_at).diff(moment(start_at), 'days') + 1 : ' - '
 
-    const onClick = () => {
-      // const { history } = this.props
-      // const { id } = sunspot
-      // history.push(`/sunspots/${id}`, { modal: true })
+    const onClick = (e) => {
+      const { nodeName, type } = e.target
+      const { history } = this.props
+      const { id } = sunspot
+
+      if (nodeName === 'INPUT' && type === 'checkbox') {
+        return
+      } else {
+        history.push(`/sunspots/${id}`, { modal: true })
+      }
     }
 
     return (

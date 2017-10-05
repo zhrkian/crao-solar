@@ -43,11 +43,16 @@ class ListToolbar extends React.Component {
                 </Tooltip>
               ) : null
             }
-            <Tooltip title="Filter list">
-              <IconButton color={ open ? 'accent' : 'default' } aria-label="Filter list" onClick={this.onToggleFilterPanel}>
-                <FilterListIcon />
-              </IconButton>
-            </Tooltip>
+            {
+              this.props.filters ? (
+                <Tooltip title="Filter list">
+                  <IconButton color={ open ? 'accent' : 'default' } aria-label="Filter list" onClick={this.onToggleFilterPanel}>
+                    <FilterListIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : null
+            }
+
           </div>
         </Toolbar>
         <Collapse in={open} transitionDuration="auto" unmountOnExit>
