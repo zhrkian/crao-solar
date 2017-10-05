@@ -70,7 +70,7 @@ const Sunspots = ({ classes, options = {}, onChange }) => {
           {
             (options.sunspots || []).map((spot, index) => <Chip
                 style={{ margin: 5 }}
-                label={`NOAA ${spot}`}
+                label={`NOAA${spot}`}
                 key={spot}
                 onRequestDelete={() => onRemove(index)}
               />
@@ -80,8 +80,8 @@ const Sunspots = ({ classes, options = {}, onChange }) => {
         <TextField
           id="sunspots-textarea"
           className={classes.input}
-          label='Connection Name'
-          placeholder='Connection Name'
+          label='Sunspot numbers'
+          placeholder='Sunspot numbers'
           multiline
           rows={'5'}
           fullWidth
@@ -89,7 +89,7 @@ const Sunspots = ({ classes, options = {}, onChange }) => {
         <Button raised className={classes.button} onClick={onAdd}>Add sunspots</Button>
 
         <Pane title='Fields' style={{ width: '100%'}}>
-          <SelectFields items={fields || options.fields} onCheck={onCheck} />
+          <SelectFields items={options.fields || fields} onCheck={onCheck} />
         </Pane>
 
       </div>

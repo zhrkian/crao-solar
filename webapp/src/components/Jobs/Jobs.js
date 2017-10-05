@@ -7,11 +7,39 @@ import Sunspots from './Sunspots'
 
 import s from './Jobs.styles'
 
+const fields = [
+  {
+    value: 'number',
+    name: 'NOAA Number',
+    selected: true,
+    disabled: true
+  },
+  {
+    selected: true,
+    value: 'visible',
+    name: 'Visible (Days)'
+  },
+  {
+    // selected: true,
+    value: 'start_at',
+    name: 'First seen'
+  },
+  {
+    selected: true,
+    value: 'end_at',
+    name: 'Last seen'
+  },
+  {
+    selected: true,
+    value: 'flare_index',
+    name: 'Flare Index'
+  }
+]
+
 class Jobs extends Component {
   constructor (props) {
     super(props)
-
-    this.state = { job: props.job || {} }
+    this.state = { job: props.job || { kind: 'sunspots', options: { fields } } }
   }
 
   updateJob = field => {
@@ -36,8 +64,6 @@ class Jobs extends Component {
     const setupProps = { onKindChange: this.onKindChange, kind: kind || '' }
     const sunspotProps = { onChange: this.onOptionsChange, options }
 
-    console.log(job)
-
     return (
       <div className={classes.root}>
         <div className={classes.content} style={{ width: kind ? '50%' : '100%'}}>
@@ -51,7 +77,6 @@ class Jobs extends Component {
             </div>
           ) : null
         }
-
       </div>
     )
   }
