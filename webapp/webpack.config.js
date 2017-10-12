@@ -15,14 +15,15 @@ module.exports = {
     hot: true,
     contentBase: path.resolve(__dirname, "dist"),
     port: 3000,
-    host: "0.0.0.0",
+    host: "argh.local",
     publicPath: "/",
     historyApiFallback: true,
     disableHostCheck: true,
+    https: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
-        secure: false
+        target: 'http://solar.dev.argh.team/api',
+        secure: true
       }
     }
   },
