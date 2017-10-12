@@ -1,5 +1,0 @@
-web: node ./bin/www
-dev: supervisor ./bin/www
-
-setup-deploy: rm -rf ../backend-dist && cd .. && git clone ssh://deployer@solar.dev.argh.team/home/deployer/repos/solar-back.git backend-dist && cd backend && chmod +x deploy
-deploy: ./deploy ssh://deployer@solar.dev.argh.team/home/deployer/repos/solar-back.git
