@@ -1,10 +1,4 @@
-import React from 'react'
-import { configure, addDecorator } from '@kadira/storybook'
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles'
-
-const theme = createMuiTheme()
-
-addDecorator(story => <MuiThemeProvider theme={theme}>{story()}</MuiThemeProvider>)
+import { configure } from '@storybook/react'
 
 function loadStories() {
   require('../stories')
