@@ -9,7 +9,9 @@
     "preview": "pushstate-server ./dist 1234",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "setup-deploy": "rm -rf ../webapp-dist && cd ../ && git clone ssh://deployer@solar.dev.argh.team/home/deployer/repos/solar-front.git webapp-dist && cd webapp && chmod +x deploy",
+    "deploy": "./deploy ssh://deployer@solar.dev.argh.team/home/deployer/repos/solar-front.git"
   },
   "keywords": [
     "React",
