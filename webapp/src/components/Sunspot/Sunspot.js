@@ -1,75 +1,71 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
 import { withStyles } from 'material-ui/styles'
-import { inject, observer } from 'mobx-react'
-import Pane from '../Grid/Pane'
-import { BarChart } from 'react-d3-components'
+import moment from 'moment'
+import AppBar from 'material-ui/AppBar';
+import Tabs, { Tab } from 'material-ui/Tabs'
 import s from './Sunspot.styles'
 
-const SunSportsBar = ({ classes, sunspots }) => {
-  const values = Object.keys(sunspots).map(date => ({ x: date.split('-')[2], y: sunspots[date] }))
+import CreateChartContainer from '../ResponsiveChartContainer'
+
+const AreaChart = CreateChartContainer('AreaChart')
+
+const AreaChartBar = ({ data, xLabel, yLabel }) => {
+  const values = Object.keys(data).map(date => ({ x: moment(new Date(date)).format('DD MMM') /*.split('-')[2]*/, y: data[date] }))
   return (
-    <div className={classes.item}>
-      <Pane title='Number of Spots'>
-        <BarChart
-          data={[ { label: 'Number of Spots', values }]}
-          width={450}
-          height={300}
-          xAxis={{label: 'Days'}}
-          yAxis={{innerTickSize: 1, label: 'Number of Spots'}}
-          margin={{top: 10, bottom: 50, left: 50, right: 10}}/>
-      </Pane>
-    </div>
+    <AreaChart
+      axes
+      grid
+      dataPoints
+      interpolate={'cardinal'}
+      xType={'text'}
+      axisLabels={{ x: xLabel, y: yLabel }}
+      yTicks={3}
+      data={[ values ]}/>
   )
 }
 
-@withRouter
-@inject((stores, props) => {
-    return {
-      sunspot: stores.sunspotsStore.findById(props.match.params.id)
-    }
-  }
-)
-@observer
+const TabContainer = ({ children }) => <div style={{ padding: 8 * 3 }}>{children}</div>
+
+@withStyles(s)
 class Sunspot extends Component {
+  state = { tab: 0 }
+
+  handleTabChange = (event, tab) => {
+    this.setState({ tab })
+  }
+
   render () {
     const { classes } = this.props
     const { sunspot } = this.props
-
-    console.log(this.props, sunspot)
+    const { tab } = this.state
 
     return (
       <div className={classes.root}>
-        <SunSportsBar classes={classes} sunspots={sunspot.sunspots_amount} />
-        <SunSportsBar classes={classes} sunspots={sunspot.sunspots_amount} />
-        <SunSportsBar classes={classes} sunspots={sunspot.sunspots_amount} />
-        {/*<div className={classes.item}>*/}
-          {/*<Pane title="Some title">*/}
-            {/*<BarChart*/}
-              {/*data={data}*/}
-              {/*width={400}*/}
-              {/*height={300}/>*/}
-          {/*</Pane>*/}
-        {/*</div>*/}
-        {/*<div className={classes.item}>*/}
-          {/*<Pane title="Some title">*/}
-            {/*<BarChart*/}
-              {/*data={data}*/}
-              {/*width={400}*/}
-              {/*height={300}/>*/}
-          {/*</Pane>*/}
-        {/*</div>*/}
-        {/*<div className={classes.item}>*/}
-          {/*<Pane title="Some title">*/}
-            {/*<BarChart*/}
-              {/*data={data}*/}
-              {/*width={400}*/}
-              {/*height={300}/>*/}
-          {/*</Pane>*/}
-        {/*</div>*/}
+        <AppBar position="static" color="default">
+          <Tabs
+            value={tab}
+            onChange={this.handleTabChange}
+            indicatorColor="primary"
+            textColor="primary"
+            scrollable
+            scrollButtons="auto"
+          >
+            <Tab label={'Number of Spots/Area'} />
+            {/*<Tab label={'Sunspot Area Info'} />*/}
+          </Tabs>
+        </AppBar>
+        {
+          tab === 0 && (
+            <TabContainer>
+              <AreaChartBar classes={classes} data={sunspot.sunspots_amount} yLabel={'Number of Spots'} />
+              <AreaChartBar classes={classes} data={sunspot.area} yLabel={'Sunspot Area [millionths]'} />
+            </TabContainer>
+          )
+        }
+        {/*{tab === 1 && <TabContainer>Item Two</TabContainer>}*/}
       </div>
     )
   }
 }
 
-export default withStyles(s)(Sunspot)
+export default Sunspot

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import DevTools from 'mobx-react-devtools'
 import GrabbedData from './GrabbedData'
 // import Jobs from './Jobs'
@@ -35,26 +35,31 @@ class AppSwitch extends React.Component {
         <AppBar />
 
         <Switch location={isModal ? this.previousLocation : location}>
-          <Route exact
-                 path='/'
-                 state={{ title: 'Grabbed Data' }}
-                 component={GrabbedData}
+          <Route
+            exact
+            path='/'
+            render={() => (<Redirect to={{ pathname: `/sunspots`, state: { title: 'Sunspots' } }} />)}
+            // state={{ title: 'Grabbed Data' }}
+            // component={GrabbedData}
           />
 
-          <Route path='/jobs'
-                 state={{ title: 'Jobs' }}
-                 component={Jobs}
+          <Route
+            path='/jobs'
+            render={() => (<Redirect to={{ pathname: `/sunspots`, state: { title: 'Sunspots' } }} />)}
+            // state={{ title: 'Jobs' }}
+            // component={Jobs}
           />
 
-          <Route exact
-                 path='/sunspots'
-                 state={{ title: 'Sunspots' }}
-                 component={Sunspots}
+          <Route
+            path='/sunspots'
+            state={{ title: 'Sunspots' }}
+            component={Sunspots}
           />
 
-          <Route path='/sunspots/:id'
-                 state={{ modal: true, back: true, defaultBack: '/sunspots' }}
-                 component={SunspotModal} />
+          <Route
+            path='/sunspots/:id'
+            state={{ modal: true, back: true, defaultBack: '/sunspots' }}
+            component={SunspotModal} />
         </Switch>
         { isModal ? <Route path='/sunspots/:id' component={SunspotModal} /> : null }
       </div>

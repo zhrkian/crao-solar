@@ -22,6 +22,9 @@
   "author": "Martin Haagensli",
   "license": "ISC",
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.12",
+    "@storybook/addon-links": "^3.2.12",
+    "@storybook/react": "^3.2.12",
     "babel-core": "^6.23.1",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
@@ -44,14 +47,16 @@
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.7",
     "webpack": "^3.5.6",
-    "webpack-dev-server": "^2.4.5",
-    "@kadira/storybook": "^2.21.0"
+    "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
     "axios": "^0.16.2",
     "computed-async-mobx": "^3.0.0",
     "css-declaration-sorter": "^2.0.0",
     "css-mqpacker": "^6.0.1",
+    "d3-array": "^1.2.1",
+    "d3-scale": "^1.0.6",
+    "d3-time-format": "^2.1.0",
     "faker": "^4.1.0",
     "lazy-route": "^1.0.7",
     "lodash": "^4.17.4",
@@ -67,6 +72,8 @@
     "react": "^15.3.2",
     "react-d3-components": "^0.7.0",
     "react-dom": "^15.3.2",
+    "react-easy-chart": "^0.3.0",
+    "react-faux-dom": "^4.0.5",
     "react-router-dom": "latest",
     "react-router-modal": "^1.1.13",
     "rfx-core": "^1.5.3",

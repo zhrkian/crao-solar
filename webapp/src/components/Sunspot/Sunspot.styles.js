@@ -1,15 +1,16 @@
 const styles = theme => (
   {
     root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around'
+      flexGrow: 1,
+      width: '100%',
+      marginTop: theme.spacing.unit * 3,
+      backgroundColor: theme.palette.background.paper
     },
     item: {
       background: 'white',
       display: 'inline-flex',
       flexDirection: 'column',
-      margin: '1em'
+      margin: '1em',
     }
   }
 )

@@ -5,7 +5,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   entry: [
     "react-hot-loader/patch",
-    "webpack-dev-server/client?http://0.0.0.0:3000",
+    "webpack-dev-server/client?http://argh.local:8008",
     "webpack/hot/only-dev-server",
     "babel-polyfill",
     "whatwg-fetch",
@@ -14,16 +14,15 @@ module.exports = {
   devServer: {
     hot: true,
     contentBase: path.resolve(__dirname, "dist"),
-    port: 3000,
+    port: 8008,
     host: "argh.local",
     publicPath: "/",
     historyApiFallback: true,
     disableHostCheck: true,
-    https: true,
     proxy: {
       '/api': {
-        target: 'http://solar.dev.argh.team/api',
-        secure: true
+        target: 'http://localhost:5000',
+        secure: false
       }
     }
   },

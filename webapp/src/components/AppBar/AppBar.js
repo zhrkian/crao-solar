@@ -18,31 +18,36 @@ class ApplicationBar extends Component {
             <Typography type='title' color='inherit' className={classes.flex}>
               { title }
             </Typography>
-            <NavLink exact
-                     to={{
-                       pathname: '/',
-                       state: {
-                         title: 'Grabbed Data'
-                       }
-                     }}
-                     className={classes.link}
-                     activeClassName={classes.activeLink}>Grabbed Data</NavLink>
-            <NavLink to={{
-                       pathname: '/jobs',
-                       state: {
-                         title: 'Jobs'
-                       }
-                     }}
-                     className={classes.link}
-                     activeClassName={classes.activeLink}>Jobs</NavLink>
-            <NavLink to={{
-                       pathname: '/sunspots',
-                       state: {
-                         title: 'Sunspots'
-                       }
-                     }}
-                     className={classes.link}
-                     activeClassName={classes.activeLink}>Sunspots</NavLink>
+            {/*<NavLink*/}
+              {/*exact*/}
+              {/*disabled*/}
+              {/*to={{*/}
+                {/*pathname: '/',*/}
+                {/*state: {*/}
+                  {/*title: 'Grabbed Data'*/}
+                {/*}*/}
+              {/*}}*/}
+              {/*className={classes.link}*/}
+              {/*activeClassName={classes.activeLink}>Grabbed Data</NavLink>*/}
+            {/*<NavLink*/}
+              {/*disabled*/}
+              {/*to={{*/}
+                {/*pathname: '/jobs',*/}
+                {/*state: {*/}
+                  {/*title: 'Jobs'*/}
+                {/*}*/}
+              {/*}}*/}
+              {/*className={classes.link}*/}
+              {/*activeClassName={classes.activeLink}>Jobs</NavLink>*/}
+            <NavLink
+              to={{
+                pathname: '/sunspots',
+                state: {
+                  title: 'Sunspots'
+                }
+              }}
+              className={classes.link}
+              activeClassName={classes.activeLink}>Sunspots</NavLink>
           </Toolbar>
         </AppBar>
       </div>
