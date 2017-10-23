@@ -11,12 +11,12 @@ const columns = [
   { id: 'first_seen', disablePadding: true, label: 'First seen' },
   { id: 'last_seen', disablePadding: true, label: 'Last seen' },
   { id: 'days', disablePadding: true, label: 'Visible (Days)' },
-  { id: 'position', disablePadding: true, label: 'Position info' },
-  { id: 'hale_class', disablePadding: true, label: 'Hale Class Info' },
-  { id: 'macintosh_class', disablePadding: true, label: 'MacIntosh Class Info' },
+  { id: 'position', disablePadding: true, label: 'Position' },
+  { id: 'hale_class', disablePadding: true, label: 'Hale Class' },
+  { id: 'macintosh_class', disablePadding: true, label: 'MacIntosh Class' },
   { id: 'area', disablePadding: true, label: 'Area Info' },
   { id: 'sunspots_amount', disablePadding: true, label: 'Spots Amount Info' },
-  { id: 'flares', disablePadding: true, label: 'Flares Info' }
+  { id: 'flares', disablePadding: true, label: 'Max Flare' }
 ]
 
 const ListToolbar = inject(stores => ({ selected: stores.sunspotsStore.selected }))(observer(ListToolbarDefault))

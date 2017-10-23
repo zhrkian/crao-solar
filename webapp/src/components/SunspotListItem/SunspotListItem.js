@@ -7,13 +7,16 @@ import Checkbox from 'material-ui/Checkbox'
 import { TableCell, TableRow } from 'material-ui/Table'
 import s from './SunspotListItem.styles'
 
+import * as SunspotUtils from '../../utils/sunspot'
+
+
 const params = [
   { field: 'position', label: 'Position Info' },
-  { field: 'hale_class', label: 'Hale Class Info' },
-  { field: 'macintosh_class', label: 'MacIntosh Class Info' },
+  { field: 'hale_class', label: 'Hale Class Info', getter: 'getHaleClass' },
+  { field: 'macintosh_class', label: 'MacIntosh Class Info', getter: 'getMacIntoshClass' },
   { field: 'area', label: 'Area Info' },
   { field: 'sunspots_amount', label: 'Spots Amount Info' },
-  { field: 'flares', label: 'Flares Info' }
+  { field: 'flares', label: 'Flares Info', getter: 'getMaximalFlare' }
 ]
 
 @withRouter
@@ -42,6 +45,8 @@ class SunspotListItem extends Component {
       }
     }
 
+    SunspotUtils.getMaximalFlare(sunspot)
+
     return (
       <TableRow
         hover
@@ -62,9 +67,10 @@ class SunspotListItem extends Component {
         {
           params.map(param => {
             const checked = sunspot[param.field] && Object.keys(sunspot[param.field]).length
+            const value = param.getter ? SunspotUtils[param.getter](sunspot) : null
             return (
               <TableCell key={param.field}>
-                { checked ? ' + ' : ' - ' }
+                { checked ? value || ' + ' : ' - ' }
               </TableCell>
             )
           })

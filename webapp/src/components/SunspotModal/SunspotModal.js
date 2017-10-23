@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { withStyles } from 'material-ui/styles'
 import Dialog, { DialogContent } from 'material-ui/Dialog'
+import Typography from 'material-ui/Typography'
 import AppBar from 'material-ui/AppBar'
 import Toolbar from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
@@ -15,11 +16,9 @@ import { SunspotConnected as Sunspot } from '../Sunspot'
 @withRouter
 @withStyles(s)
 class SunspotModal extends React.Component {
-  state = { open: true }
+  state = { open: true, title: '' }
 
-  static propTypes = {
-    classes: PropTypes.object.isRequired,
-  }
+  setTitle = title => this.setState({ title })
 
   handleRequestClose = () => {
     this.props.history.goBack()
@@ -27,8 +26,7 @@ class SunspotModal extends React.Component {
   }
 
   render() {
-
-    console.log(this.props)
+    const { title } = this.state
     const { classes } = this.props
     const { id } = this.props.match.params
     return (
@@ -43,11 +41,15 @@ class SunspotModal extends React.Component {
             <IconButton color="contrast" onClick={this.handleRequestClose} aria-label="Close">
               <CloseIcon />
             </IconButton>
+            <Typography type="title" color="inherit">
+              { title }
+            </Typography>
+
           </Toolbar>
         </AppBar>
 
         <DialogContent className={classes.content}>
-          <Sunspot id={id} />
+          <Sunspot id={id} onSetTitle={this.setTitle} />
         </DialogContent>
       </Dialog>
     )

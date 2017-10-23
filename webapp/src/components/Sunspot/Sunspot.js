@@ -6,11 +6,13 @@ import Tabs, { Tab } from 'material-ui/Tabs'
 import s from './Sunspot.styles'
 
 import CreateChartContainer from '../ResponsiveChartContainer'
+import { Legend } from 'react-easy-chart'
 
 const AreaChart = CreateChartContainer('AreaChart')
+const ScatterPlot = CreateChartContainer('ScatterPlot')
 
 const AreaChartBar = ({ data, xLabel, yLabel }) => {
-  const values = Object.keys(data).map(date => ({ x: moment(new Date(date)).format('DD MMM') /*.split('-')[2]*/, y: data[date] }))
+  const values = Object.keys(data).map(date => ({ x: moment(new Date(date)).format('DD MMM') /*.split('-')[2]*/, y: data[date] })).filter(item => item.y)
   return (
     <AreaChart
       axes
@@ -24,11 +26,67 @@ const AreaChartBar = ({ data, xLabel, yLabel }) => {
   )
 }
 
+const FlaresScatter = ({ flares }) => {
+  let data = []
+  Object.keys(flares).map(date => {
+    Object.keys(flares[date]).map(flareClass => {
+      flares[date][flareClass].forEach(flare => {
+        if (!flare) return
+        data.push({
+          x: moment(new Date(date)).format('DD MMM'),
+          y: flare,
+          type: `${flareClass} flare class`
+        })
+      })
+    })
+  })
+
+  return (
+    <div>
+      <ScatterPlot
+        axes
+        grid
+        yType={'text'}
+        xType={'text'}
+        data={data} />
+      <Legend data={data} dataId={'type'} />
+    </div>
+  )
+}
+
+const ClassesScatter = ({ classes }) => {
+  let data = []
+  Object.keys(classes).map(date => {
+    if (!classes[date]) return
+    data.push({
+      x: moment(new Date(date)).format('DD MMM'),
+      y: classes[date],
+      type: `${classes[date]} - class`
+    })
+  })
+
+  return (
+    <div>
+      <ScatterPlot
+        axes
+        grid
+        xType={'text'}
+        data={data} />
+      <Legend data={data} dataId={'type'} />
+    </div>
+  )
+}
+
 const TabContainer = ({ children }) => <div style={{ padding: 8 * 3 }}>{children}</div>
 
 @withStyles(s)
 class Sunspot extends Component {
   state = { tab: 0 }
+
+  componentWillMount () {
+    const { sunspot, onSetTitle } = this.props
+    return onSetTitle && sunspot ? onSetTitle(`NOAA ${sunspot.number}`) : null
+  }
 
   handleTabChange = (event, tab) => {
     this.setState({ tab })
@@ -51,7 +109,9 @@ class Sunspot extends Component {
             scrollButtons="auto"
           >
             <Tab label={'Number of Spots/Area'} />
-            {/*<Tab label={'Sunspot Area Info'} />*/}
+            <Tab label={'Sunspot Flares'} />
+            {/*<Tab label={'Hale Classes'} />*/}
+            {/*<Tab label={'MacIntosh Flares'} />*/}
           </Tabs>
         </AppBar>
         {
@@ -62,7 +122,27 @@ class Sunspot extends Component {
             </TabContainer>
           )
         }
-        {/*{tab === 1 && <TabContainer>Item Two</TabContainer>}*/}
+        {
+          tab === 1 && (
+            <TabContainer>
+              <FlaresScatter {...sunspot} />
+            </TabContainer>
+          )
+        }
+        {/*{*/}
+          {/*tab === 2 && (*/}
+            {/*<TabContainer>*/}
+              {/*<ClassesScatter classes={sunspot.hale_class} />*/}
+            {/*</TabContainer>*/}
+          {/*)*/}
+        {/*}*/}
+        {/*{*/}
+          {/*tab === 3 && (*/}
+            {/*<TabContainer>*/}
+              {/*<ClassesScatter classes={sunspot.macintosh_class} />*/}
+            {/*</TabContainer>*/}
+          {/*)*/}
+        {/*}*/}
       </div>
     )
   }

@@ -8,6 +8,7 @@ import Table, {
 } from 'material-ui/Table'
 import s from './List.styles'
 
+@withStyles(s)
 class ListComponent extends Component {
   state = { page: 0, rowsPerPage: 25 }
 
@@ -49,7 +50,7 @@ class ListComponent extends Component {
                 count={total}
                 rowsPerPage={rowsPerPage}
                 page={page}
-                rowsPerPageOptions={[25, 50, 100, 150, 'All']}
+                rowsPerPageOptions={[25, 50, 100, 150]}
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
               />
@@ -62,4 +63,4 @@ class ListComponent extends Component {
   }
 }
 
-export default withStyles(s)(ListComponent)
+export default ListComponent
