@@ -16,34 +16,47 @@ const columns = [
   { id: 'macintosh_class', disablePadding: true, label: 'MacIntosh Class' },
   { id: 'area', disablePadding: true, label: 'Area Info' },
   { id: 'sunspots_amount', disablePadding: true, label: 'Spots Amount Info' },
-  { id: 'flares', disablePadding: true, label: 'Max Flare' }
+  { id: 'flares', disablePadding: true, label: 'Max Flare' },
+  { id: 'flare_index', disablePadding: true, label: 'Flare Index' }
 ]
+//
+// const ListToolbar = inject(stores => ({ selected: stores.sunspotsStore.selected }))(observer(ListToolbarDefault))
+//
+// const ListHeader = inject(stores => ({
+//   selected: stores.sunspotsStore.selected,
+//   onSelectAll: (value) => stores.sunspotsStore.selectAll(value)
+// }))(observer(ListHeaderDefault))
+//
+// const SunspotFilters = inject(stores => ({
+//   filters: stores.sunspotsStore.filters,
+//   onApply: (value) => stores.sunspotsStore.setFilters(value),
+//   onReset: () => stores.sunspotsStore.setFilters()
+// }))(observer(SunspotFiltersDefault))
 
-const ListToolbar = inject(stores => ({ selected: stores.sunspotsStore.selected }))(observer(ListToolbarDefault))
-
-const ListHeader = inject(stores => ({
-  selected: stores.sunspotsStore.selected,
-  onSelectAll: (value) => stores.sunspotsStore.selectAll(value)
-}))(observer(ListHeaderDefault))
-
-const SunspotFilters = inject(stores => ({
-  filters: stores.sunspotsStore.filters,
-  onApply: (value) => stores.sunspotsStore.setFilters(value),
-  onReset: () => stores.sunspotsStore.setFilters()
-}))(observer(SunspotFiltersDefault))
-
-@inject(stores => ({ sunspots: stores.sunspotsStore.filtered || [], total: stores.sunspotsStore.filtered.length }))
+@inject(stores => ({
+  sunspots: stores.sunspotsStore.sunspots,
+  total: stores.sunspotsStore.total,
+  perPage: stores.sunspotsStore.perPage,
+  page: stores.sunspotsStore.page,
+  onPageChange: (page, perPage) => stores.sunspotsStore.onPageChange(page, perPage)
+}))
 @observer
 class Sunspots extends Component {
   render () {
-    const { sunspots, total } = this.props
+    const { sunspots, total, page, perPage } = this.props
+    const { onPageChange } = this.props
     return (
       <List items={sunspots}
             columns={columns}
             total={total}
-            toolbar={<ListToolbar total={total} title="Sunspots" filters={<SunspotFilters />}/>}
-            header={<ListHeader total={total} columns={columns} />}
-            renderItem={item => <SunspotListItem key={item.id} sunspot={item} />}/>
+            page={page}
+            perPage={perPage}
+            onPageChange={onPageChange}
+            header={<ListHeaderDefault columns={columns} />}
+            renderItem={item => <SunspotListItem key={item.id} sunspot={item} />}
+        // toolbar={<ListToolbar total={total} title="Sunspots" filters={<SunspotFilters />}/>}
+        // header={<ListHeader total={total} columns={columns} />}
+      />
     )
   }
 }

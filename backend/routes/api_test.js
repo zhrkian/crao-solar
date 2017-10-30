@@ -9,6 +9,8 @@ const { sunspotView }       = require('../views/sunspot')
 const sunspot               = require('../modules/sunspot')
 const SolarMonitor          = require('../modules/solarmonitor')
 
+const SolarMonitorParser    = require('../modules/parsers/solarmonitor')
+
 
 var enumerateDaysBetweenDates = function(startDate, endDate) {
   let currDate = moment(startDate).startOf('day')
@@ -31,31 +33,65 @@ const c = new Crawler({
       console.log(`Error for ${res.options.date}`)
       done()
     } else {
-      let tableSpotsData = SolarMonitor.tableGrubber(res.$)
-      let imageSportData = SolarMonitor.imageGrubber(res.$)
+      const { $ } = res
+      const { date, kind } = res.options
+      const imgUrl = SolarMonitorParser.getImageUrl($)
+      const table = SolarMonitorParser.getTableData($)
+      let tableData = SolarMonitorParser.parseTable(table)
+      let imageDate = SolarMonitorParser.findActiveRegionsOnImage($)
 
-      imageSportData.forEach(spot => {
-        if (!tableSpotsData.hasOwnProperty(spot)) {
-          tableSpotsData[spot] = {}
+      imageDate.forEach(spot => {
+        if (!tableData.hasOwnProperty(spot)) {
+          tableData[spot] = {
+            position: null,
+            hale_class: null,
+            macintosh_class: null,
+            area: null,
+            sunspots_amount: null,
+            flares: []
+          }
         }
       })
 
-      const promises = Object.keys(tableSpotsData).map((key, index) => {
-        const { date, kind } = res.options
-        return sunspot.update(key, kind, date, tableSpotsData[key])
+      const promises = Object.keys(tableData).map((number, index) => {
+        return sunspot.update(number, kind, date, imgUrl, tableData[number])
       })
 
-      console.log(`Save data for ${res.options.date}`)
+      Promise.all(promises).then(success => {
+        console.log(`Done for ${date}`)
+        done()
+      }, reject => {
+        console.log(`Error for ${date}`)
+        done()
+      })
 
-      Promise.all(promises).then(success => done(), reject => done())
+      // let tableSpotsData = SolarMonitor.tableGrubber(res.$)
+      // let imageSportData = SolarMonitor.imageGrubber(res.$)
+      //
+      // imageSportData.forEach(spot => {
+      //   if (!tableSpotsData.hasOwnProperty(spot)) {
+      //     tableSpotsData[spot] = {}
+      //   }
+      // })
+      //
+      // const promises = Object.keys(tableSpotsData).map((key, index) => {
+      //   const { date, kind } = res.options
+      //   return sunspot.update(key, kind, date, tableSpotsData[key])
+      // })
+      //
+      // console.log(`Save data for ${res.options.date}`)
+      //
+      //
     }
   }
 })
 
 router.get('/', wrap(function *(req, res) {
-  const parseDates1 = enumerateDaysBetweenDates('2010-07-28', '2010-08-28')
 
-  console.log(parseDates1)
+  const { begin, end } = req.query
+  const parseDates1 = enumerateDaysBetweenDates(begin, end || begin)
+
+  // console.log(parseDates1)
 
   c.queue(parseDates1.map(date => ({
     uri: `https://solarmonitor.org/full_disk.php?date=${date.replace(/-/g, '')}&type=smdi_maglc`,

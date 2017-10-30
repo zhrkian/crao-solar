@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const getHaleClass = sunspot => {
   if (!sunspot) return null
 
@@ -32,39 +34,90 @@ export const getMaximumFlareDate = (flareValue, flareClass, flares) => {
   return flareDate
 }
 
-export const getMaximalFlare = sunspot => {
-  if (!sunspot) return null
-  const { flares = {} } = sunspot
-  const dates = Object.keys(flares).map(date => date)
+export const getMaxFlareByClass = (flares, flareClass) => _.maxBy(flares.filter(flare => flare['class'] === flareClass), flare => flare.value)
 
-  let allFlares = {}
+export const getMaxFlare = info => {
+  if (!info) return null
 
-  dates.forEach(date => {
-    for (let flareClass in flares[date]) {
-      if (flares[date].hasOwnProperty(flareClass) ) {
-        allFlares[flareClass] = allFlares[flareClass] || []
-        allFlares[flareClass] = [...allFlares[flareClass], ...flares[date][flareClass]]
+  let flaresAll = []
+  info.map(({ flares, date }) => {
+    const dateFlares = flares.map(flare => ({
+      ...flare,
+      date
+    }))
+    flaresAll = [...flaresAll, ...dateFlares]
+  })
+
+
+  let maximalFlare = getMaxFlareByClass(flaresAll, 'X')
+
+  if (!maximalFlare) {
+    maximalFlare = getMaxFlareByClass(flaresAll, 'M')
+  }
+  if (!maximalFlare) {
+    maximalFlare = getMaxFlareByClass(flaresAll, 'C')
+  }
+
+
+
+  return maximalFlare || null
+}
+
+export const getDates = dates => {
+  if (!dates) return
+  const start_at = dates.reduce((a, b) => {
+    const aDate = (new Date(a)).getTime()
+    const bDate = (new Date(b)).getTime()
+    return aDate < bDate ? aDate : bDate;
+  })
+  const end_at = dates.reduce((a, b) => {
+    const aDate = new Date(a)
+    const bDate = new Date(b)
+    return aDate > bDate ? aDate : bDate;
+  })
+  return { start_at, end_at }
+}
+
+export const getFlaresSumByClass = (flares, flareClass) => {
+  let result = 0
+
+  flares.filter(flare => flare['class'] === flareClass).forEach(flare => result += flare.value)
+
+  return result
+}
+
+export const getFlareIndex = (info, days) => {
+  if (!info || !days) return 0
+
+  let flaresAll = []
+  info.map(({ flares, date }) => {
+    const dateFlares = flares.map(flare => ({
+      ...flare,
+      date
+    }))
+    flaresAll = [...flaresAll, ...dateFlares]
+  })
+
+  return (100.0 * getFlaresSumByClass(flaresAll, 'X') + 10.0 * getFlaresSumByClass(flaresAll, 'M') + 1.0 * getFlaresSumByClass(flaresAll, 'C')) / days
+}
+
+export const getPosition = info => {
+  if (!info) return null
+
+  let result = { N: 0, S: 0 }
+
+  info.forEach(date => {
+    if (date.position) {
+      if (date.position.indexOf('S') < 0 ) {
+        result.N += 1
+      } else {
+        result.S += 1
       }
     }
   })
 
-  let flareValue = ''
-  let flareClass = ''
+  if (result.S === result.N) return null
 
-  if (allFlares.hasOwnProperty('X') && allFlares.X.length) {
-    flareValue = Math.max.apply(null, allFlares.X)
-    flareClass = 'X'
-  } else if (allFlares.hasOwnProperty('M') && allFlares.M.length) {
-    flareValue = Math.max.apply(null, allFlares.M)
-    flareClass = 'M'
-  } else if (allFlares.hasOwnProperty('C') && allFlares.C.length) {
-    flareValue = Math.max.apply(null, allFlares.C)
-    flareClass = 'C'
-  }
-
-  if (flareValue && flareClass) {
-    return `${flareClass}${flareValue} \n (${getMaximumFlareDate(flareValue, flareClass, flares).replace(/-/g, '/')})`
-  }
-
-  return null
+  if (result.S > result.N) return 'S'
+  return 'N'
 }

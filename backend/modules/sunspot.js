@@ -1,37 +1,11 @@
 const co  = require('co')
 const moment = require('moment')
+const _ = require('lodash')
 const Sunspot = require('../models/sunspot')
 
-const updateSunspotDate = (sunspot, date) => {
-  const { start_at, end_at } = sunspot
-
-  if (!start_at) {
-    sunspot.start_at = date
-    return sunspot
-  }
-
-  if (moment(date).isBefore(moment(start_at))) { //If incoming date is before start date
-    if (!sunspot.end_at) {
-      sunspot.end_at = sunspot.start_at
-    }
-    sunspot.start_at = date
-  } else if (!sunspot.end_at) { //If no end date
-    sunspot.end_at = date
-  } else if (moment(end_at).isBefore(moment(date))) { //If end date is before incoming date
-    sunspot.end_at = date
-  }
-
-  return sunspot
-}
-
-const updateSunspotObjectField = (sunspot, date, field, options) => {
-  let updatedField = JSON.parse(sunspot[field] || '{}')
-
-  if (!options || (!Object.keys(options).length && typeof options !== 'number')) return JSON.stringify(updatedField)
-
-  updatedField[date] = options
-
-  return JSON.stringify(updatedField)
+const skipPerPage = (page, perPage) => {
+  page = page || 1
+  return (page - 1) * perPage
 }
 
 const create = (number, kind) =>
@@ -40,10 +14,7 @@ const create = (number, kind) =>
     return yield sunspot.save()
   })
 
-
-const UPDATE_FIELDS = [ 'position', 'hale_class', 'macintosh_class', 'area', 'sunspots_amount', 'flares' ]
-
-const update = (number, kind, date, options) =>
+const update = (number, kind, date, image, info) =>
   co(function *(){
     let sunspot = yield Sunspot.findOne({ number, kind })
 
@@ -51,23 +22,51 @@ const update = (number, kind, date, options) =>
       sunspot = yield create(number, kind)
     }
 
-    if (!date) return null
-
-    sunspot = updateSunspotDate(sunspot, date)
-
-    for (let key in UPDATE_FIELDS) {
-      const field = UPDATE_FIELDS[key]
-      if (options[field] && Object.keys(options).length) {
-        sunspot[field] = updateSunspotObjectField(sunspot, date, field, options[field])
-      }
+    //update info
+    sunspot.info = sunspot.info || []
+    const infoIndex = _.findIndex(sunspot.info, { date: date })
+    const infoFull = Object.assign(info, { date, image })
+    if (infoIndex < 0) {
+      sunspot.info.push(infoFull)
+    } else {
+      sunspot.info[infoIndex] = infoFull
     }
+    sunspot.info[date] = info
+    sunspot.markModified('info')
 
-    return yield sunspot.save()
+    //update dates
+    sunspot.dates = sunspot.dates || []
+    if (sunspot.dates.indexOf(date) < 0) {
+      sunspot.dates.push(date)
+    }
+    sunspot.markModified('dates')
+
+    sunspot = yield sunspot.save()
+
+    return sunspot
   })
 
-const index = () =>
-  co(function *(){
-    return yield Sunspot.find({}).sort({ createdAt: -1 })
+// "info.flares.class": "C"
+
+const index = (query) =>
+  co(function *() {
+    const perPage = parseInt(query.perPage || 20)
+    const page = parseInt(query.page || 1)
+
+    const total = yield Sunspot.count()
+
+    if (!total) return { total: 0, count: 0, sunspots: [] }
+
+    const skip = skipPerPage(page, perPage)
+
+    let scope = Sunspot.find({}).limit(perPage).skip(skip)
+
+    scope = scope.sort('-_id')
+
+    const sunspots = yield scope.exec()
+    const count = yield Sunspot.find({}).count()
+
+    return { total, count, sunspots }
   })
 
 module.exports = {

@@ -11,7 +11,7 @@ import CloseIcon from 'material-ui-icons/Close'
 import Slide from 'material-ui/transitions/Slide'
 import s from './SunspotModal.styles'
 
-import { SunspotConnected as Sunspot } from '../Sunspot'
+import Sunspot from '../Sunspot'
 
 @withRouter
 @withStyles(s)

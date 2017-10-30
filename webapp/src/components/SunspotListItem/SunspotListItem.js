@@ -30,8 +30,12 @@ class SunspotListItem extends Component {
   render () {
     const { sunspot } = this.props
     const { toggleSelected } = this.props
-    const { start_at, end_at } = sunspot
+    const { start_at, end_at } = SunspotUtils.getDates(sunspot.dates)
     const days = start_at && end_at ? moment(end_at).diff(moment(start_at), 'days') + 1 : ' - '
+    const maxFlare = SunspotUtils.getMaxFlare(sunspot.info)
+    const flareIndex = SunspotUtils.getFlareIndex(sunspot.info, days)
+
+
 
     const onClick = (e) => {
       const { nodeName, type } = e.target
@@ -45,7 +49,6 @@ class SunspotListItem extends Component {
       }
     }
 
-    SunspotUtils.getMaximalFlare(sunspot)
 
     return (
       <TableRow
@@ -64,17 +67,41 @@ class SunspotListItem extends Component {
         <TableCell padding='none'>{ start_at ? moment(start_at).format('YYYY/MM/DD').toString() : null }</TableCell>
         <TableCell padding='none'>{ end_at ? moment(end_at).format('YYYY/MM/DD').toString() : null }</TableCell>
         <TableCell>{ days }</TableCell>
-        {
-          params.map(param => {
-            const checked = sunspot[param.field] && Object.keys(sunspot[param.field]).length
-            const value = param.getter ? SunspotUtils[param.getter](sunspot) : null
-            return (
-              <TableCell key={param.field}>
-                { checked ? value || ' + ' : ' - ' }
-              </TableCell>
+
+        <TableCell>
+          { SunspotUtils.getPosition(sunspot.info) || ' - '}
+        </TableCell>
+
+        <TableCell>
+          2
+        </TableCell>
+
+        <TableCell>
+          3
+        </TableCell>
+
+        <TableCell>
+          4
+        </TableCell>
+
+        <TableCell>
+          5
+        </TableCell>
+
+        <TableCell>
+          {
+            maxFlare && (
+              <div>
+                <p>{maxFlare['class']}{maxFlare.value}</p>
+                <p>{maxFlare.date} {maxFlare.time}</p>
+              </div>
             )
-          })
-        }
+          }
+        </TableCell>
+
+        <TableCell>
+          { flareIndex ? flareIndex.toFixed(3) : ' - ' }
+        </TableCell>
       </TableRow>
     )
   }

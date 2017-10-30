@@ -10,28 +10,26 @@ import s from './List.styles'
 
 @withStyles(s)
 class ListComponent extends Component {
-  state = { page: 0, rowsPerPage: 25 }
-
   handleChangePage = (event, page) => {
-    this.setState({ page })
+    const { perPage, onPageChange } = this.props
+    console.log(page)
+    return onPageChange(page, perPage)
   }
 
   handleChangeRowsPerPage = event => {
-    const { total } = this.props
-    const rowsPerPage = event.target.value === 'All' ? total : event.target.value
-    this.setState({ rowsPerPage })
+    const perPage = event.target.value
+    const { page, onPageChange } = this.props
+    return onPageChange(page, perPage)
   }
 
-  renderItems = (items = []) => {
-    const { page, rowsPerPage } = this.state
+  renderItems = (items) => {
     const { renderItem } = this.props
-    return items.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(item => renderItem(item))
+    return items.map(item => renderItem(item))
   }
 
   render () {
-    const { page, rowsPerPage } = this.state
     const { classes } = this.props
-    const { items, total } = this.props
+    const { items, total, page, perPage } = this.props
 
     return (
       <Paper className={classes.root}>
@@ -48,9 +46,9 @@ class ListComponent extends Component {
             <TableFooter>
               <TablePagination
                 count={total}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={perPage}
                 page={page}
-                rowsPerPageOptions={[25, 50, 100, 150]}
+                rowsPerPageOptions={[5, 10, 20, 50]}
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
               />

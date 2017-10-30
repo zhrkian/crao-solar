@@ -3,6 +3,9 @@ import { withStyles } from 'material-ui/styles'
 import moment from 'moment'
 import AppBar from 'material-ui/AppBar';
 import Tabs, { Tab } from 'material-ui/Tabs'
+import axios from 'axios'
+import { Carousel } from 'react-responsive-carousel'
+import styles from 'react-responsive-carousel/lib/styles/carousel.min.css'
 import s from './Sunspot.styles'
 
 import CreateChartContainer from '../ResponsiveChartContainer'
@@ -12,7 +15,6 @@ const AreaChart = CreateChartContainer('AreaChart')
 const ScatterPlot = CreateChartContainer('ScatterPlot')
 
 const AreaChartBar = ({ data, xLabel, yLabel }) => {
-  const values = Object.keys(data).map(date => ({ x: moment(new Date(date)).format('DD MMM') /*.split('-')[2]*/, y: data[date] })).filter(item => item.y)
   return (
     <AreaChart
       axes
@@ -22,69 +24,75 @@ const AreaChartBar = ({ data, xLabel, yLabel }) => {
       xType={'text'}
       axisLabels={{ x: xLabel, y: yLabel }}
       yTicks={3}
-      data={[ values ]}/>
+      data={[ data ]}/>
   )
 }
 
-const FlaresScatter = ({ flares }) => {
-  let data = []
-  Object.keys(flares).map(date => {
-    Object.keys(flares[date]).map(flareClass => {
-      flares[date][flareClass].forEach(flare => {
-        if (!flare) return
-        data.push({
-          x: moment(new Date(date)).format('DD MMM'),
-          y: flare,
-          type: `${flareClass} flare class`
-        })
-      })
-    })
-  })
-
-  return (
-    <div>
-      <ScatterPlot
-        axes
-        grid
-        yType={'text'}
-        xType={'text'}
-        data={data} />
-      <Legend data={data} dataId={'type'} />
-    </div>
-  )
-}
-
-const ClassesScatter = ({ classes }) => {
-  let data = []
-  Object.keys(classes).map(date => {
-    if (!classes[date]) return
-    data.push({
-      x: moment(new Date(date)).format('DD MMM'),
-      y: classes[date],
-      type: `${classes[date]} - class`
-    })
-  })
-
-  return (
-    <div>
-      <ScatterPlot
-        axes
-        grid
-        xType={'text'}
-        data={data} />
-      <Legend data={data} dataId={'type'} />
-    </div>
-  )
-}
+// const FlaresScatter = ({ flares }) => {
+//   let data = []
+//   Object.keys(flares).map(date => {
+//     Object.keys(flares[date]).map(flareClass => {
+//       flares[date][flareClass].forEach(flare => {
+//         if (!flare) return
+//         data.push({
+//           x: moment(new Date(date)).format('DD MMM'),
+//           y: flare,
+//           type: `${flareClass} flare class`
+//         })
+//       })
+//     })
+//   })
+//
+//   return (
+//     <div>
+//       <ScatterPlot
+//         axes
+//         grid
+//         yType={'text'}
+//         xType={'text'}
+//         data={data} />
+//       <Legend data={data} dataId={'type'} />
+//     </div>
+//   )
+// }
+//
+// const ClassesScatter = ({ classes }) => {
+//   let data = []
+//   Object.keys(classes).map(date => {
+//     if (!classes[date]) return
+//     data.push({
+//       x: moment(new Date(date)).format('DD MMM'),
+//       y: classes[date],
+//       type: `${classes[date]} - class`
+//     })
+//   })
+//
+//   return (
+//     <div>
+//       <ScatterPlot
+//         axes
+//         grid
+//         xType={'text'}
+//         data={data} />
+//       <Legend data={data} dataId={'type'} />
+//     </div>
+//   )
+// }
 
 const TabContainer = ({ children }) => <div style={{ padding: 8 * 3 }}>{children}</div>
 
 @withStyles(s)
 class Sunspot extends Component {
-  state = { tab: 0 }
+  state = { tab: 0, thinking: true }
 
-  componentWillMount () {
-    const { sunspot, onSetTitle } = this.props
+  async componentWillMount () {
+    const { id, onSetTitle } = this.props
+    const { data } = await axios.get(`/api/sunspots/${id}`)
+    const { sunspot, success } = data
+
+    if (success) {
+      this.setState({ thinking: false, sunspot })
+    }
     return onSetTitle && sunspot ? onSetTitle(`NOAA ${sunspot.number}`) : null
   }
 
@@ -94,8 +102,11 @@ class Sunspot extends Component {
 
   render () {
     const { classes } = this.props
-    const { sunspot } = this.props
-    const { tab } = this.state
+    const { tab, thinking, sunspot } = this.state
+
+    if (thinking) {
+      return <div className={classes.root}>Thinking...</div>
+    }
 
     return (
       <div className={classes.root}>
@@ -108,6 +119,7 @@ class Sunspot extends Component {
             scrollable
             scrollButtons="auto"
           >
+            <Tab label={'Images'} />
             <Tab label={'Number of Spots/Area'} />
             <Tab label={'Sunspot Flares'} />
             {/*<Tab label={'Hale Classes'} />*/}
@@ -117,32 +129,51 @@ class Sunspot extends Component {
         {
           tab === 0 && (
             <TabContainer>
-              <AreaChartBar classes={classes} data={sunspot.sunspots_amount} yLabel={'Number of Spots'} />
-              <AreaChartBar classes={classes} data={sunspot.area} yLabel={'Sunspot Area [millionths]'} />
+              <Carousel
+                showArrows
+                width="681">
+                {
+                  sunspot.info.map(info => (
+                    <div key={info.date}>
+                      <img src={info.image} />
+                    </div>
+                  ))
+                }
+              </Carousel>
             </TabContainer>
           )
         }
         {
           tab === 1 && (
             <TabContainer>
-              <FlaresScatter {...sunspot} />
+              <AreaChartBar
+                classes={classes}
+                data={sunspot.info.map(info => {
+                  return {
+                    x: moment(new Date(info.date)).format('DD MMM'),
+                    y: info.sunspots_amount
+                  }
+                }).filter(item => item.y)}
+                yLabel={'Number of Spots'} />
+              <AreaChartBar
+                classes={classes}
+                data={sunspot.info.map(info => {
+                  return {
+                    x: moment(new Date(info.date)).format('DD MMM'),
+                    y: info.area
+                  }
+                }).filter(item => item.y)}
+                yLabel={'Sunspot Area [millionths]'} />
             </TabContainer>
           )
         }
-        {/*{*/}
-          {/*tab === 2 && (*/}
-            {/*<TabContainer>*/}
-              {/*<ClassesScatter classes={sunspot.hale_class} />*/}
-            {/*</TabContainer>*/}
-          {/*)*/}
-        {/*}*/}
-        {/*{*/}
-          {/*tab === 3 && (*/}
-            {/*<TabContainer>*/}
-              {/*<ClassesScatter classes={sunspot.macintosh_class} />*/}
-            {/*</TabContainer>*/}
-          {/*)*/}
-        {/*}*/}
+        {
+          tab === 2 && (
+            <TabContainer>
+              {/*<FlaresScatter {...sunspot} />*/}
+            </TabContainer>
+          )
+        }
       </div>
     )
   }
