@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "PORT=3300 node ./bin/www"
+    "start": "PORT=3300 node ./bin/www",
+    "setup-deploy": "rm -rf ../backend-dist && cd ../ && git clone ssh://deployer@solar.dev.argh.team/home/deployer/repos/solar-back.git backend-dist && cd backend && chmod +x deploy",
+    "deploy": "./deploy ssh://deployer@solar.dev.argh.team/home/deployer/repos/solar-back.git"
   },
   "dependencies": {
     "body-parser": "1.15.2",
@@ -15,7 +17,8 @@
     "express": "4.14.0",
     "express-session": "^1.15.3",
     "google-spreadsheet": "^2.0.3",
-    "moment": "^2.18.1",
+    "lodash": "^4.17.4",
+    "moment": "^2.19.3",
     "mongoose": "4.8.1",
     "morgan": "1.7.0",
     "needle": "^1.6.0",

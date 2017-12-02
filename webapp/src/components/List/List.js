@@ -6,13 +6,19 @@ import Table, {
   TableFooter,
   TablePagination
 } from 'material-ui/Table'
-import s from './List.styles'
+
+const s = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 10,
+  },
+  tableWrapper: {}
+})
 
 @withStyles(s)
 class ListComponent extends Component {
   handleChangePage = (event, page) => {
     const { perPage, onPageChange } = this.props
-    console.log(page)
     return onPageChange(page, perPage)
   }
 

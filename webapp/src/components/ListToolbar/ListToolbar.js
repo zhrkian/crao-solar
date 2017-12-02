@@ -6,9 +6,33 @@ import IconButton from 'material-ui/IconButton'
 import Tooltip from 'material-ui/Tooltip'
 import AddBoxIcon from 'material-ui-icons/AddBox'
 import FilterListIcon from 'material-ui-icons/FilterList'
-import s from './ListToolbar.styles'
-
 import Collapse from 'material-ui/transitions/Collapse'
+
+const s = theme => ({
+  root: {
+    paddingRight: 2,
+  },
+  highlight:
+    theme.palette.type === 'light'
+      ? {
+        color: theme.palette.secondary.A700,
+        backgroundColor: theme.palette.secondary.A100,
+      }
+      : {
+        color: theme.palette.secondary.A100,
+        backgroundColor: theme.palette.secondary.A700,
+      },
+  spacer: {
+    flex: '1 1 100%',
+  },
+  actions: {
+    display: 'inline-flex',
+    color: theme.palette.text.secondary,
+  },
+  title: {
+    flex: '0 0 auto',
+  },
+})
 
 class ListToolbar extends React.Component {
   state = { open: false }
@@ -35,22 +59,22 @@ class ListToolbar extends React.Component {
           <div className={classes.spacer} />
           <div className={classes.actions}>
             {
-              selected > 0 ? (
+              selected > 0 && (
                 <Tooltip title="Create Job">
                   <IconButton aria-label="Create Job">
                     <AddBoxIcon />
                   </IconButton>
                 </Tooltip>
-              ) : null
+              )
             }
             {
-              this.props.filters ? (
+              this.props.filters && (
                 <Tooltip title="Filter list">
                   <IconButton color={ open ? 'accent' : 'default' } aria-label="Filter list" onClick={this.onToggleFilterPanel}>
                     <FilterListIcon />
                   </IconButton>
                 </Tooltip>
-              ) : null
+              )
             }
 
           </div>

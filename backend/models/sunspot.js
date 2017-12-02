@@ -10,7 +10,15 @@ let sunspotSchema = new Schema({
   kind: { type: String },
   images: { type: Mixed },
   dates: { type: Mixed },
-  info: { type: Mixed }
+  info: { type: Mixed },
+
+  // Cron update
+  start_at: { type: Date },
+  end_at: { type: Date },
+  days: { type: Number },
+  maxFlare: { type: Mixed },
+  flareIndex: { type: Number },
+  position: { type: String },
 })
 
 sunspotSchema.plugin(createdAt)

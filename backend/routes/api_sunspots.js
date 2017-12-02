@@ -5,12 +5,14 @@ const sunspot               = require('../modules/sunspot')
 const { sunspotView }       = require('../views/sunspot')
 
 router.get('/', wrap(function *(req, res) {
-  const { total, count, sunspots } = yield sunspot.index(req.query)
-  return res.json({ success: true, total, count, sunspots: sunspots.map(sunspot => sunspotView(sunspot)) })
+  const { total, sunspots } = yield sunspot.index(req.query)
+  return res.json({ success: true, total, sunspots: sunspots.map(sunspot => sunspotView(sunspot)) })
 }))
 
 router.get('/:id', wrap(function *(req, res) {
   const sunspot = yield sunspot.show(req.params.id)
+
+
   return res.json({ success: true, sunspot: sunspotView(sunspot) })
 }))
 

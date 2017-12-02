@@ -46,27 +46,48 @@ const update = (number, kind, date, image, info) =>
     return sunspot
   })
 
-// "info.flares.class": "C"
+const applyFilters = ( filters = {} ) => {
+  const { flareClasses, position, start, end, flareIndex } = filters
+  let conditions = {}
+
+  if (flareClasses && flareClasses.length) conditions["info.flares.class"] = { $all : flareClasses }
+  if (position && position.length) conditions["position"] = { $all : position }
+
+  if (start) {
+    conditions["start_at"] = { $gte : new Date(start) }
+  }
+  if (end) {
+    conditions["end_at"] = { $lt : new Date(end) }
+  }
+
+  if (flareIndex === 'true') {
+    conditions["flareIndex"] = { $gt : 0.0 }
+  }
+
+  return conditions
+}
 
 const index = (query) =>
   co(function *() {
     const perPage = parseInt(query.perPage || 20)
     const page = parseInt(query.page || 1)
+    const conditions = applyFilters(query.filters)
 
-    const total = yield Sunspot.count()
+    let total = yield Sunspot.find(conditions).count()
 
     if (!total) return { total: 0, count: 0, sunspots: [] }
 
-    const skip = skipPerPage(page, perPage)
-
-    let scope = Sunspot.find({}).limit(perPage).skip(skip)
+    let scope = Sunspot.find(conditions)
 
     scope = scope.sort('-_id')
 
-    const sunspots = yield scope.exec()
-    const count = yield Sunspot.find({}).count()
+    const skip = skipPerPage(page, perPage)
 
-    return { total, count, sunspots }
+    scope = scope.limit(perPage).skip(skip)
+
+    const sunspots = yield scope.exec()
+
+    return { total, sunspots }
   })
 
 module.exports = {

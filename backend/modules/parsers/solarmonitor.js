@@ -67,7 +67,7 @@ const getActiveRegionFlares = value => {
 
   if (!flaresString || flaresString.length === 1) return result
 
-  const flares = flaresString[0].match(FLARES_REGEX)
+  const flares = flaresString[0].match(FLARES_REGEX) || []
 
   flares.forEach(flare => {
     const flareParams = flare.match(FLARE_REGEX)

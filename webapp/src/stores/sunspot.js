@@ -4,21 +4,21 @@ import axios from 'axios'
 export default class Sunspot {
   id
   number
-  kind
-  dates
-  info
-  @observable selected = false
+  days
+  start_at
+  end_at
+  maxFlare
+  flareIndex
+  position
 
   constructor (options) {
     this.id = options.id
     this.number = options.number
-    this.kind = options.kind
-    this.dates = options.dates
-    this.info = options.info
-  }
-
-  @action
-  toggleSelected () {
-    this.selected = !this.selected
+    this.days = options.days
+    this.start_at = options.start_at
+    this.end_at = options.end_at
+    this.maxFlare = options.maxFlare
+    this.flareIndex = options.flareIndex
+    this.position = options.position
   }
 }
