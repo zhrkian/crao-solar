@@ -13,7 +13,7 @@ const show = (jobId) =>
 
 const create = ({ name, options }) =>
   co(function *(){
-    let job = new Job({ name, options, status: 'processing' })
+    let job = new Job({ name, options })
     return yield job.save()
   })
 

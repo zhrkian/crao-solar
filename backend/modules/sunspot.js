@@ -93,5 +93,6 @@ const index = (query) =>
 module.exports = {
   create,
   update,
-  index
+  index,
+  applyFilters
 }

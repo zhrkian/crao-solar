@@ -8,7 +8,8 @@ let jobSchema = new Schema({
   name: { type: String },
   spots: { type: String },
   status: { type: String },
-  options: { type: Schema.Types.Mixed  }
+  options: { type: Schema.Types.Mixed  },
+  result: { type: Schema.Types.Mixed  }
 })
 
 jobSchema.plugin(createdAt)

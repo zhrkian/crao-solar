@@ -10,13 +10,14 @@ exports.jobListView = job => {
 }
 
 exports.jobView = job => {
-  const { _id, createdAt, name, status, options } = job
+  const { _id, createdAt, name, status, options, result } = job
 
   return {
     id: _id,
     createdAt,
     name,
     status,
-    options
+    options,
+    result
   }
 }
