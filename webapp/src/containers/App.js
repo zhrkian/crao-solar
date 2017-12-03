@@ -1,13 +1,13 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import DevTools from 'mobx-react-devtools'
-import GrabbedData from './GrabbedData'
-// import Jobs from './Jobs'
+
+import Jobs from './Jobs'
 import Sunspots from './Sunspots'
 import SunspotModal from '../components/SunspotModal'
 import AppBar from '../components/AppBar'
 
-import Jobs from '../components/Jobs'
+
 
 class AppSwitch extends React.Component {
   previousLocation = this.props.location
@@ -45,9 +45,8 @@ class AppSwitch extends React.Component {
 
           <Route
             path='/jobs'
-            render={() => (<Redirect to={{ pathname: `/sunspots`, state: { title: 'Sunspots' } }} />)}
-            // state={{ title: 'Jobs' }}
-            // component={Jobs}
+            state={{ title: 'Jobs' }}
+            component={Jobs}
           />
 
           <Route

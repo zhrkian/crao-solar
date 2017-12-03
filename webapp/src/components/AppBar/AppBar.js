@@ -29,16 +29,15 @@ class ApplicationBar extends Component {
               {/*}}*/}
               {/*className={classes.link}*/}
               {/*activeClassName={classes.activeLink}>Grabbed Data</NavLink>*/}
-            {/*<NavLink*/}
-              {/*disabled*/}
-              {/*to={{*/}
-                {/*pathname: '/jobs',*/}
-                {/*state: {*/}
-                  {/*title: 'Jobs'*/}
-                {/*}*/}
-              {/*}}*/}
-              {/*className={classes.link}*/}
-              {/*activeClassName={classes.activeLink}>Jobs</NavLink>*/}
+            <NavLink
+              to={{
+                pathname: '/jobs',
+                state: {
+                  title: 'Jobs'
+                }
+              }}
+              className={classes.link}
+              activeClassName={classes.activeLink}>Jobs</NavLink>
             <NavLink
               to={{
                 pathname: '/sunspots',

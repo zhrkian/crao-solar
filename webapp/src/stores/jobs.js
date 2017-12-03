@@ -1,57 +1,58 @@
 import { observable, action, computed } from 'mobx'
 import axios from 'axios'
-import Job from './job'
+import param from 'can-param'
 
 export default class Jobs {
+  @observable filters = {}
   @observable jobs = []
+  @observable selected = []
   @observable thinking = false
-  @observable filters = ''
+  @observable page = 0
+  @observable perPage = 20
+
+  @observable createThinking = false
+  @observable createSuccess = false
+  @observable createError = null
 
   constructor () {
-    this.getJobsList()
+    this.getJobsList().then()
   }
 
-  async getJobsList () {
-    this.thinking = true
-    try {
-      const { data } = await axios.get(`/api/jobs`)
-      const { jobs } = data || {}
-      this.jobs = jobs.map(job => new Job(job))
-      this.error = null
-    } catch (e) {
-      this.error = 'Some error'
+  async getJobsList (page = 0, perPage = 20, filters = {}) {
+      const queryString = `?${param({ page: page + 1, perPage, filters })}`
+      this.thinking = true
+      try {
+        const { data } = await axios.get(`/api/jobs${queryString}`)
+        const { jobs, total, count  } = data || {}
+        this.page = page
+        this.perPage = perPage
+        this.count = count
+        this.total = total
+        this.error = null
+        this.jobs = jobs
+      } catch (e) {
+        this.error = 'Some error'
+      }
+      this.thinking = false
     }
 
-    this.thinking = false
-  }
-
   @action
-  setFilters (value) {
-    this.filters = value
-  }
+  async createJob (name, options) {
+    this.createError = null
+    this.createSuccess = false
+    this.createThinking = true
 
-  @action
-  selectAll (value) {
-    this.jobs.forEach(job => job.selected = value)
-  }
+    const createResult = await axios.post(`/api/jobs`, { job: { name, options }})
 
-  findById (id) {
-    return computed(() => this.jobs.find(job => job.id == id)).get()
-  }
+    const { success, job, message } = createResult.data
 
-  @computed
-  get filtered () {
-    return this.jobs
-  }
+    if (success) {
+        await this.getJobsList()
+    }
 
-  @computed
-  get selected () {
-    const selectedItems = this.jobs.filter(job => job.selected)
-    return selectedItems.length
-  }
+    this.createError = message
+    this.createSuccess = success
+    this.createThinking = false
 
-  @computed
-  get total () {
-    return this.jobs.length
   }
 }

@@ -1,9 +1,9 @@
 import sunspotsStore from './sunspots'
-import jobs from './jobs'
+import jobsStore from './jobs'
 
 const stores = {
   sunspotsStore: new sunspotsStore(),
-  jobsStore: new jobs()
+  jobsStore: new jobsStore()
 }
 
 window.___ALL_STORES___ = stores

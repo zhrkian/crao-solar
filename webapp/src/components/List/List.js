@@ -54,7 +54,7 @@ class ListComponent extends Component {
                 count={total}
                 rowsPerPage={perPage}
                 page={page}
-                rowsPerPageOptions={[5, 10, 20, 50]}
+                rowsPerPageOptions={[5, 10, 20, 50, 100, 200]}
                 onChangePage={this.handleChangePage}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
               />

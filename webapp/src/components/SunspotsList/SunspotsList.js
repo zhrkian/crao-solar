@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import List from '../List'
-import ListToolbar from '../ListToolbar'
-import { ListItem, ListHeader, Filters } from './index'
-
-
-import param from 'can-param'
+import { ListItem, ListHeader, ListToolbar } from './index'
+import { SunspotsFilter } from '../Filters'
 
 const columns = [
   { id: 'number', disablePadding: true, label: 'NOAA Number' },
@@ -54,9 +51,9 @@ export default class Sunspots extends Component {
             page={page}
             perPage={perPage}
             onPageChange={onPageChange}
-            toolbar={<ListToolbar title={'Sunspots'} selected={selected.length} filters={<Filters filters={filters} onApply={onFilters} onReset={onFilters} />}/>}
+            toolbar={<ListToolbar title={'Sunspots'} selected={selected} filters={<SunspotsFilter filters={filters} onApply={onFilters} onReset={onFilters} />}/>}
             header={<ListHeader columns={columns} selected={selected} onSelect={onSelect} />}
-            renderItem={item => <ListItem key={item.id} selected={ selected.indexOf(item.id) > -1 } sunspot={item} onSelect={onSelect} />}
+            renderItem={item => <ListItem key={item.id} selected={ selected.indexOf(item.number) > -1 } sunspot={item} onSelect={onSelect} />}
       />
     )
   }

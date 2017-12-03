@@ -48,7 +48,7 @@ class SunspotListItem extends Component {
       >
         <TableCell padding='checkbox'>
           <Checkbox checked={selected}
-                    onClick={event => onSelect(id)}/>
+                    onClick={event => onSelect(number)}/>
         </TableCell>
         <TableCell padding='none'>{ `NOAA${number}` }</TableCell>
         <TableCell padding='none'>{ start_at && moment(new Date(start_at)).format('DD MMM YYYY').toString() }</TableCell>

@@ -184,23 +184,43 @@ class SunspotFilters extends React.Component {
 
   handleFlareFilterChange = value => {
     const { filters } = this.state
-    this.setState({ filters: Object.assign(filters, { flareClasses: value }) })
+    const { onChange } = this.props
+    const newFilters = Object.assign(filters, { flareClasses: value })
+    this.setState({ filters: newFilters })
+    if (onChange) {
+      onChange(newFilters)
+    }
   }
 
   handlePositionFilterChange = value => {
     const { filters } = this.state
-    this.setState({ filters: Object.assign(filters, { position: value }) })
+    const { onChange } = this.props
+    const newFilters = Object.assign(filters, { position: value })
+    this.setState({ filters: newFilters })
+    if (onChange) {
+      onChange(newFilters)
+    }
   }
 
   handleDateFilterChange = value => {
     const { filters } = this.state
-    console.log({ filters: Object.assign(filters, value) })
-    this.setState({ filters: Object.assign(filters, value) })
+    const { onChange } = this.props
+    const newFilters = Object.assign(filters, value)
+    this.setState({ filters: newFilters })
+    if (onChange) {
+      onChange(newFilters)
+    }
+
   }
 
   handleFlareIndexFilterChange = value => {
     const { filters } = this.state
-    this.setState({ filters: Object.assign(filters, { flareIndex: value }) })
+    const { onChange } = this.props
+    const newFilters = Object.assign(filters, { flareIndex: value })
+    this.setState({ filters: newFilters })
+    if (onChange) {
+      onChange(newFilters)
+    }
   }
 
   onApplyFilters = () => {
@@ -211,12 +231,13 @@ class SunspotFilters extends React.Component {
 
   onResetFilters = () => {
     const { onReset } = this.props
-    return this.setState({ filters: { flareClasses: [], position: [], start: '', end: '', flareIndex: false} }, onReset)
+    const newFilters = { flareClasses: [], position: [], start: '', end: '', flareIndex: false}
+    return this.setState({ filters: newFilters }, () => onReset(newFilters))
   }
 
   render () {
     const { filters } = this.state
-    const { classes } = this.props
+    const { classes, onChange } = this.props
 
     return (
       <div className={classes.root}>
@@ -236,11 +257,17 @@ class SunspotFilters extends React.Component {
 
 
         <div className={classes.actions}>
-          <Button raised
-                  className={classes.button}
-                  onClick={this.onApplyFilters}>
-            Apply
-          </Button>
+
+          {
+            !onChange && (
+              <Button raised
+                      className={classes.button}
+                      onClick={this.onApplyFilters}>
+                Apply
+              </Button>
+            )
+          }
+
           <Button raised
                   color='accent'
                   className={classes.button}

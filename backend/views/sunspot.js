@@ -1,7 +1,7 @@
 const moment        = require('moment')
 const SunspotUtils  = require('../utils/sunspot')
 
-exports.sunspotView = sunspot => {
+exports.sunspotListView = sunspot => {
   // const { start_at, end_at } = SunspotUtils.getDates(sunspot.dates)
   // const days = start_at && end_at ? moment(end_at).diff(moment(start_at), 'days') + 1 : ' - '
   // const maxFlare = SunspotUtils.getMaxFlare(sunspot.info)
