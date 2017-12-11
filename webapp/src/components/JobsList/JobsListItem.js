@@ -33,7 +33,7 @@ class JobsListItem extends Component {
       if (nodeName === 'INPUT' && type === 'checkbox') {
         return
       } else {
-        history.push(`/sunspots/${id}`, { modal: true })
+        history.push(`/jobs/${id}`, { modal: true })
       }
     }
 

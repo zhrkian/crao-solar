@@ -1,18 +1,27 @@
 import { observable, action } from 'mobx'
 import axios from 'axios'
 
-export default class Sunspot {
+class Job {
   id
-  name
-  @observable selected = false
+  @observable name
+  @observable options
+  @observable result
+  @observable status
+  @observable thinking = true
 
-  constructor (options) {
-    this.id = options.id
-    this.name = options.name
+  constructor (id) {
+    axios.get(`/api/jobs/${id}`).then(({ data: { success, job }}) => {
+      if (success && job) {
+        this.options = job.options
+        this.result = job.result
+        this.name = job.name
+        this.status = job.status
+      }
+
+      this.thinking = false
+    })
   }
 
-  @action
-  toggleSelected () {
-    this.selected = !this.selected
-  }
 }
+
+export default Job

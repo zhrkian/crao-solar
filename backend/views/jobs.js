@@ -12,6 +12,8 @@ exports.jobListView = job => {
 exports.jobView = job => {
   const { _id, createdAt, name, status, options, result } = job
 
+  console.log(job)
+
   return {
     id: _id,
     createdAt,

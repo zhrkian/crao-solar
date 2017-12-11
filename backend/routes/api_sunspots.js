@@ -1,8 +1,8 @@
-const express               = require('express')
-const router                = express.Router()
-const wrap                  = require('co-express')
-const sunspot               = require('../modules/sunspot')
-const { sunspotListView }   = require('../views/sunspot')
+const express                             = require('express')
+const router                              = express.Router()
+const wrap                                = require('co-express')
+const sunspot                             = require('../modules/sunspot')
+const { sunspotListView, sunspotView }    = require('../views/sunspot')
 
 router.get('/', wrap(function *(req, res) {
   const { total, sunspots } = yield sunspot.index(req.query)
@@ -10,10 +10,9 @@ router.get('/', wrap(function *(req, res) {
 }))
 
 router.get('/:id', wrap(function *(req, res) {
-  const sunspot = yield sunspot.show(req.params.id)
+  const item = yield sunspot.show(req.params.id)
 
-
-  return res.json({ success: true, sunspot: sunspotListView(sunspot) })
+  return res.json({ success: true, sunspot: sunspotView(item) })
 }))
 
 module.exports = router

@@ -39,7 +39,7 @@ const s = theme => ({
 
 const FLARE_CLASSES = ['A', 'B', 'C', 'M', 'X']
 
-const FlareClassFilter = ({ flareClasses, onChange }) => {
+const FlareClassFilter = ({ flareClasses, onChange, readOnly }) => {
   const onFilterChange = value => (event, checked) => {
     if (checked) {
       return onChange([...flareClasses, value])
@@ -58,6 +58,7 @@ const FlareClassFilter = ({ flareClasses, onChange }) => {
               key={c}
               control={
                 <Checkbox
+                  disabled={readOnly}
                   checked={flareClasses.indexOf(c) > -1}
                   onChange={onFilterChange(c)}
                 />
@@ -73,7 +74,7 @@ const FlareClassFilter = ({ flareClasses, onChange }) => {
 
 const POSITIONS = ['S', 'N']
 
-const PositionFilter = ({ position, onChange }) => {
+const PositionFilter = ({ position, onChange, readOnly }) => {
   const onFilterChange = value => (event, checked) => {
     if (checked) {
       return onChange([value])
@@ -92,6 +93,7 @@ const PositionFilter = ({ position, onChange }) => {
               key={c}
               control={
                 <Checkbox
+                  disabled={readOnly}
                   checked={position.indexOf(c) > -1}
                   onChange={onFilterChange(c)}
                 />
@@ -107,7 +109,7 @@ const PositionFilter = ({ position, onChange }) => {
 
 
 
-const FlareIndexFilter = ({ flareIndex, onChange }) => {
+const FlareIndexFilter = ({ flareIndex, onChange, readOnly }) => {
   const onFilterChange = value => (event, checked) => {
     if (checked) {
       return onChange(true)
@@ -123,6 +125,7 @@ const FlareIndexFilter = ({ flareIndex, onChange }) => {
           <FormControlLabel
             control={
               <Checkbox
+                disabled={readOnly}
                 checked={flareIndex}
                 onChange={onFilterChange()}
               />
@@ -135,7 +138,7 @@ const FlareIndexFilter = ({ flareIndex, onChange }) => {
   )
 }
 
-const DateFilter = ({ classes, start, end, onChange }) => {
+const DateFilter = ({ classes, start, end, onChange, readOnly }) => {
   const onFilterChange = (name) => ({ target: { value }} ) => onChange({ [name]: value })
 
   const from = start && `from ${start}`
@@ -149,6 +152,7 @@ const DateFilter = ({ classes, start, end, onChange }) => {
           id="start"
           label="From"
           type="date"
+          disabled={readOnly}
           value={start}
           className={classes.textField}
           InputLabelProps={{
@@ -160,6 +164,7 @@ const DateFilter = ({ classes, start, end, onChange }) => {
           id="end"
           label="To"
           type="date"
+          disabled={readOnly}
           value={end}
           className={classes.textField}
           InputLabelProps={{
@@ -237,44 +242,59 @@ class SunspotFilters extends React.Component {
 
   render () {
     const { filters } = this.state
-    const { classes, onChange } = this.props
+    const {
+      classes,
+      onChange,
+      readOnly
+    } = this.props
 
     return (
       <div className={classes.root}>
         <div className={classes.filtersRow}>
           <FlareClassFilter {...filters}
+                            readOnly={readOnly}
                             onChange={this.handleFlareFilterChange} />
           <PositionFilter {...filters}
+                          readOnly={readOnly}
                           onChange={this.handlePositionFilterChange} />
         </div>
 
         <div className={classes.filtersRow}>
-          <DateFilter classes={classes} {...filters} onChange={this.handleDateFilterChange}/>
+          <DateFilter classes={classes}
+                      {...filters}
+                      readOnly={readOnly}
+                      onChange={this.handleDateFilterChange}/>
 
           <FlareIndexFilter {...filters}
+                            readOnly={readOnly}
                             onChange={this.handleFlareIndexFilterChange} />
         </div>
 
 
-        <div className={classes.actions}>
+        {
+          !readOnly && (
+            <div className={classes.actions}>
 
-          {
-            !onChange && (
+              {
+                !onChange && (
+                  <Button raised
+                          className={classes.button}
+                          onClick={this.onApplyFilters}>
+                    Apply
+                  </Button>
+                )
+              }
+
               <Button raised
+                      color='accent'
                       className={classes.button}
-                      onClick={this.onApplyFilters}>
-                Apply
+                      onClick={this.onResetFilters}>
+                Reset
               </Button>
-            )
-          }
+            </div>
+          )
+        }
 
-          <Button raised
-                  color='accent'
-                  className={classes.button}
-                  onClick={this.onResetFilters}>
-            Reset
-          </Button>
-        </div>
       </div>
     )
   }

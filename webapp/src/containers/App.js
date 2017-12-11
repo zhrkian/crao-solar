@@ -2,9 +2,10 @@ import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import DevTools from 'mobx-react-devtools'
 
+import Job from './Job'
 import Jobs from './Jobs'
+import Sunspot from './Sunspot'
 import Sunspots from './Sunspots'
-import SunspotModal from '../components/SunspotModal'
 import AppBar from '../components/AppBar'
 
 
@@ -34,7 +35,7 @@ class AppSwitch extends React.Component {
         <DevTools />
         <AppBar />
 
-        <Switch location={isModal ? this.previousLocation : location}>
+        <Switch location={location}>
           <Route
             exact
             path='/'
@@ -44,23 +45,32 @@ class AppSwitch extends React.Component {
           />
 
           <Route
+            exact
             path='/jobs'
             state={{ title: 'Jobs' }}
             component={Jobs}
           />
 
           <Route
+            exact
+            path='/jobs/:id'
+            state={{ title: 'Jobs' }}
+            component={Job}
+          />
+
+          <Route
+            exact
             path='/sunspots'
             state={{ title: 'Sunspots' }}
             component={Sunspots}
           />
 
           <Route
+            exact
             path='/sunspots/:id'
-            state={{ modal: true, back: true, defaultBack: '/sunspots' }}
-            component={SunspotModal} />
+            state={{ title: 'Sunspots' }}
+            component={Sunspot} />
         </Switch>
-        { isModal ? <Route path='/sunspots/:id' component={SunspotModal} /> : null }
       </div>
     )
   }

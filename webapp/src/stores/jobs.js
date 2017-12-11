@@ -47,7 +47,8 @@ export default class Jobs {
     const { success, job, message } = createResult.data
 
     if (success) {
-        await this.getJobsList()
+      await axios.put(`/api/jobs/${job.id}/start`, { job: { name, options }})
+      await this.getJobsList()
     }
 
     this.createError = message

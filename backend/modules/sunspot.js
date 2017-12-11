@@ -90,9 +90,15 @@ const index = (query) =>
     return { total, sunspots }
   })
 
+const show = (sunspotId) =>
+  co(function *(){
+    return yield Sunspot.findById(sunspotId)
+  })
+
 module.exports = {
   create,
   update,
   index,
+  show,
   applyFilters
 }
