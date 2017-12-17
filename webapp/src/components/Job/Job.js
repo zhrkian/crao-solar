@@ -10,6 +10,8 @@ import Typography from 'material-ui/Typography'
 import CsvCreator from 'react-csv-creator'
 import JobStore from '../../stores/job'
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
+import Columns, { ColumnsHeading } from '../Columns'
+import Panel, {PanelToolbar} from '../Panel'
 
 const s = theme => ({
   root: {
@@ -57,21 +59,21 @@ const getHeaders = data => {
   return headers
 }
 
+const breakpointColumnsObj = {
+  default:  3,
+  1920:     3,
+  1919.95:  1,
+  959.95:   1
+}
+
 @withRouter
 @withStyles(s)
 @observer
 export default class Job extends Component {
   constructor (props) {
     super(props)
-
     const { id } = props.match.params
-    console.log(props)
-
     this.store = new JobStore(id)
-  }
-
-  componentWillMount () {
-
   }
 
   render () {
@@ -93,69 +95,75 @@ export default class Job extends Component {
     const { sunspots } = options
 
     return (
-      <Paper className={classes.root}>
-        <Typography className={classes.row} type="title" align="center" gutterBottom>
-          { name }
-        </Typography>
+      <div style={{flexGrow: 1}}>
+        <Columns heading={name} breakpoints={breakpointColumnsObj}>
 
-        { !sunspots && <SunspotsFilter filters={options} readOnly/> }
+          {
+            !sunspots && (
+              <Panel title={'Conditions'}><SunspotsFilter filters={options} readOnly/></Panel>
+            )
+          }
 
-        {
-          !!sunspots && (
-            <div className={classes.row}>
-              {
-                sunspots.map(sunspot => (
-                  <Chip
-                    disabled
-                    label={`NOAA ${sunspot}`}
-                    key={sunspot}
-                    className={classes.chip}
-                  />
-                ))
-              }
-            </div>
-          )
-        }
+          {
+            !!sunspots && (
+              <Panel title={'Sunspot list'}>
+                <div className={classes.row}>
+                  {
+                    sunspots.map(sunspot => (
+                      <Chip
+                        disabled
+                        label={`NOAA ${sunspot}`}
+                        key={sunspot}
+                        className={classes.chip}
+                      />
+                    ))
+                  }
+                </div>
+              </Panel>
+            )
+          }
 
-        {
-          result ? (
-            <div>
-              <div className={classes.row}>
-                <Button raised className={classes.button}>
-                  <CsvCreator
-                    filename={name.replace(/\s/g, '_')}
-                    headers={HEADERS}
-                    rows={result}>
-                    Download CSV
-                  </CsvCreator>
+          {
+            result ? (
+              <Panel title={'Result'}>
+                <div className={classes.row}>
+                  <Button raised className={classes.button}>
+                    <CsvCreator
+                      filename={name.replace(/\s/g, '_')}
+                      headers={HEADERS}
+                      rows={result}>
+                      Download CSV
+                    </CsvCreator>
 
-                </Button>
-              </div>
+                  </Button>
+                </div>
 
-              <div className={classes.row}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      { HEADERS.map(column => <TableCell key={column.id}>{ column.display }</TableCell>) }
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {
-                      result.map((row, index) => {
-                        return (
-                          <TableRow key={index} hover>
-                            { HEADERS.map(column => <TableCell key={column.id}>{ row[column.display] }</TableCell>) }
-                          </TableRow>
-                        );
-                      })
-                    }
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-          ) : <div className={classes.row}>No result for this Job ;(</div>
-        }
-      </Paper>
+                <div className={classes.row}>
+                  <Table className={classes.table}>
+                    <TableHead>
+                      <TableRow>
+                        { HEADERS.map(column => <TableCell key={column.id}>{ column.display }</TableCell>) }
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {
+                        result.map((row, index) => {
+                          return (
+                            <TableRow key={index} hover>
+                              { HEADERS.map(column => <TableCell key={column.id}>{ row[column.display] }</TableCell>) }
+                            </TableRow>
+                          );
+                        })
+                      }
+                    </TableBody>
+                  </Table>
+                </div>
+              </Panel>
+            ) : <Panel title={'Result'}>No result for this Job ;(</Panel>
+          }
+
+        </Columns>
+      </div>
     )
   }
 }

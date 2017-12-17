@@ -8,10 +8,7 @@ import Table, {
 } from 'material-ui/Table'
 
 const s = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 10,
-  },
+  root: {},
   tableWrapper: {}
 })
 

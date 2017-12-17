@@ -41,7 +41,7 @@ class SunspotListItem extends Component {
       <TableRow
         hover
         role='checkbox'
-        onClick={() => {} /*onClick*/}
+        onClick={onClick}
         aria-checked={selected}
         tabIndex={-1}
         selected={selected}

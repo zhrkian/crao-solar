@@ -1,4 +1,5 @@
 import React from 'react'
+import { withStyles } from 'material-ui/styles'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
 import DevTools from 'mobx-react-devtools'
 
@@ -8,8 +9,18 @@ import Sunspot from './Sunspot'
 import Sunspots from './Sunspots'
 import AppBar from '../components/AppBar'
 
+const s = theme => ({
+  content: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 9,
+    paddingLeft: theme.spacing.unit * 1.5,
+    paddingRight: theme.spacing.unit * 1.5,
+    paddingBottom: theme.spacing.unit * 1.5,
+  },
+  tableWrapper: {}
+})
 
-
+@withStyles(s)
 class AppSwitch extends React.Component {
   previousLocation = this.props.location
 
@@ -24,7 +35,11 @@ class AppSwitch extends React.Component {
   }
 
   render() {
-    const { location } = this.props
+    const {
+      classes,
+      location
+    } = this.props
+
     const isModal = !!(
       location.state &&
       location.state.modal &&
@@ -32,45 +47,47 @@ class AppSwitch extends React.Component {
     )
     return (
       <div>
-        <DevTools />
+        {/*<DevTools />*/}
         <AppBar />
 
-        <Switch location={location}>
-          <Route
-            exact
-            path='/'
-            render={() => (<Redirect to={{ pathname: `/sunspots`, state: { title: 'Sunspots' } }} />)}
-            // state={{ title: 'Grabbed Data' }}
-            // component={GrabbedData}
-          />
+        <div className={classes.content}>
+          <Switch location={location}>
+            <Route
+              exact
+              path='/'
+              render={() => (<Redirect to={{ pathname: `/sunspots`, state: { title: 'Sunspots' } }} />)}
+              // state={{ title: 'Grabbed Data' }}
+              // component={GrabbedData}
+            />
 
-          <Route
-            exact
-            path='/jobs'
-            state={{ title: 'Jobs' }}
-            component={Jobs}
-          />
+            <Route
+              exact
+              path='/jobs'
+              state={{ title: 'Jobs' }}
+              component={Jobs}
+            />
 
-          <Route
-            exact
-            path='/jobs/:id'
-            state={{ title: 'Jobs' }}
-            component={Job}
-          />
+            <Route
+              exact
+              path='/jobs/:id'
+              state={{ title: 'Jobs' }}
+              component={Job}
+            />
 
-          <Route
-            exact
-            path='/sunspots'
-            state={{ title: 'Sunspots' }}
-            component={Sunspots}
-          />
+            <Route
+              exact
+              path='/sunspots'
+              state={{ title: 'Sunspots' }}
+              component={Sunspots}
+            />
 
-          <Route
-            exact
-            path='/sunspots/:id'
-            state={{ title: 'Sunspots' }}
-            component={Sunspot} />
-        </Switch>
+            <Route
+              exact
+              path='/sunspots/:id'
+              state={{ title: 'Sunspots' }}
+              component={Sunspot} />
+          </Switch>
+        </div>
       </div>
     )
   }
