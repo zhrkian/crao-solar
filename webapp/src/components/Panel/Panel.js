@@ -1,7 +1,7 @@
 import React from 'react'
 import { withStyles } from 'material-ui/styles'
 import Paper from 'material-ui/Paper'
-import Typography from 'material-ui/Typography'
+import Collapse from 'material-ui/transitions/Collapse'
 import {PanelToolbar} from '../Panel'
 import { ColumnItem } from '../Columns'
 
@@ -38,14 +38,48 @@ const style = theme => ({
   }
 })
 
-const Panel = props =>
-  <ColumnItem>
-    <Paper className={props.classes.root} elevation={2}>
-      {props.title && <PanelToolbar title={props.title} actions={props.actions} edit={props.edit} editable={props.editable} onEdit={props.onEdit} onDiscard={props.onDiscard} onSave={props.onSave}/>}
-      <div className={props.dense ? props.classes.bodyWrapperDense : props.classes.bodyWrapper}>
-        {props.children}
-      </div>
-    </Paper>
-  </ColumnItem>
+class Panel extends React.Component {
+  constructor (props) {
+    super()
+    this.state = { open: !props.collapsible }
+  }
+
+  onToggle = () => {
+    const { open } = this.state
+    this.setState({ open: !open })
+  }
+
+  render () {
+    const {
+      classes,
+      title,
+      actions,
+      dense,
+      children,
+      collapsible
+    } = this.props
+
+    const {
+      open
+    } = this.state
+
+    return (
+      <ColumnItem>
+        <Paper className={classes.root} elevation={2}>
+          {
+            title &&
+            <PanelToolbar title={title} actions={actions} collapsible={collapsible} collapsed={!open} onToggle={this.onToggle} />
+          }
+          <div className={dense ? classes.bodyWrapperDense : classes.bodyWrapper}>
+            <Collapse in={open} transitionDuration="auto" unmountOnExit>
+              { children }
+            </Collapse>
+          </div>
+        </Paper>
+      </ColumnItem>
+    )
+  }
+}
+
 
 export default withStyles(style)(Panel)

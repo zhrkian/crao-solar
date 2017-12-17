@@ -3,13 +3,11 @@ import { withStyles } from 'material-ui/styles'
 import Typography from 'material-ui/Typography'
 import Toolbar from 'material-ui/Toolbar'
 import IconButton from 'material-ui/IconButton'
-import Button from 'material-ui/Button'
-import AddCircle from 'material-ui-icons/AddCircle'
-import Cancel from 'material-ui-icons/Clear'
-import Edit from 'material-ui-icons/Edit'
-import Save from 'material-ui-icons/Save'
+import ExpandMore from 'material-ui-icons/ExpandMore'
+import ExpandLess from 'material-ui-icons/ExpandLess'
 import Tooltip from 'material-ui/Tooltip'
 
+console.log(Tooltip)
 
 const s = theme => ({
   title: {
@@ -31,76 +29,24 @@ const s = theme => ({
   }
 })
 
-// const DiscardBlock = ({ hidden, disabled, onDiscard }) => {
-//   if (hidden) return null
-//   return (
-//     <Tooltip placement="bottom" title={'Cancel'}>
-//       <IconButton disabled={disabled} onClick={onDiscard}><Cancel/></IconButton>
-//     </Tooltip>
-//   )
-// }
-
-
-const DiscardBlock = ({ hidden, disabled, onDiscard }) => {
-  if (hidden) return null
-  return (
-    <Button
-      disabled={disabled}
-      dense
-      color={'contrast'}
-      style={{marginLeft: 10}}
-      onClick={onDiscard}>
-      Discard
-    </Button>
-  )
-}
-
-// const SaveBlock = ({ hidden, disabled, onSave }) => {
-//   if (hidden) return null
-//   return (
-//     <Tooltip placement="bottom" title={'Save'}>
-//       <IconButton color={'accent'} disabled={disabled} onClick={onSave}><Save/></IconButton>
-//     </Tooltip>
-//   )
-// }
-const SaveBlock = ({ hidden, disabled, onSave }) => {
-  if (hidden) return null
-  return (
-    <Button
-      disabled={disabled}
-      raised
-      dense
-      style={{marginLeft: 10}}
-      color={'accent'}
-      onClick={onSave}>
-      Save
-    </Button>
-  )
-}
-
-const EditBlock = ({ hidden, onEdit }) => {
-  if (hidden) return null
-  return (
-    <Tooltip placement="top" title={<span>Edit</span>}>
-      <IconButton color={'accent'} onClick={onEdit}><Edit/></IconButton>
-    </Tooltip>
-  )
-}
-
-
-const PanelToolbar = props =>
-  <Toolbar className={props.classes.root}>
-    <div className={props.classes.title}>
-      <Typography type='body2' className={props.classes.heading}>{props.title}</Typography>
+const PanelToolbar = ({ classes, actions, title, collapsible, collapsed, onToggle }) =>
+  <Toolbar className={ classes.root }>
+    <div className={ classes.title }>
+      <Typography type='body2' className={ classes.heading }>{ title }</Typography>
     </div>
-    <div className={props.classes.spacer}/>
-    <div className={props.classes.actions}>
-      {props.actions}
-
-      { props.editable && <DiscardBlock hidden={!props.edit} disabled={props.disabled} onDiscard={props.onDiscard} />}
-      { props.editable && <SaveBlock hidden={!props.edit} disabled={props.disabled} onSave={props.onSave} />}
-      { props.editable && <EditBlock hidden={props.edit} disabled={props.disabled} onEdit={props.onEdit} />}
-
+    <div className={ classes.spacer }/>
+    <div className={ classes.actions }>
+      { actions }
+      {
+        collapsible && (
+          <Tooltip placement="top" title={ collapsed ? 'More' : 'Less' }>
+            <div>
+              { collapsed && <IconButton color={'accent'} onClick={onToggle}><ExpandMore/></IconButton> }
+              { !collapsed && <IconButton color={'accent'} onClick={onToggle}><ExpandLess/></IconButton> }
+            </div>
+          </Tooltip>
+        )
+      }
     </div>
   </Toolbar>
 

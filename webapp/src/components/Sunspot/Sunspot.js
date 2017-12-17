@@ -60,7 +60,7 @@ const ChartInfo = ({ title, labels, data }) => {
 }
 
 const ClassInfo = ({ title, info }) => (
-  <Panel title={title}>
+  <Panel title={title} collapsible>
     <Table>
       <TableHead>
         <TableRow>
@@ -98,8 +98,10 @@ const FlaresInfo = ({ title, info }) => {
     })
   })
 
+  if (!flares.length) return null
+
   return (
-    <Panel title={title}>
+    <Panel title={title} collapsible>
       <Table>
         <TableHead>
           <TableRow>
