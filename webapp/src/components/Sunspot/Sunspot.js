@@ -207,16 +207,6 @@ export default class Sunspot extends Component {
           heading={`NOAA${number}`}
           subheading={<ImagesSlider info={info}/>}>
 
-          <ChartInfo
-            title={'Sunspot Area [millionths]'}
-            labels={info.map(i => moment(new Date(i.date)).format('DD MMM YYYY').toString())}
-            data={info.map(i => i.area)}/>
-
-          <ChartInfo
-            title={'Number of Spots'}
-            labels={info.map(i => moment(new Date(i.date)).format('DD MMM YYYY').toString())}
-            data={info.map(i => i.sunspots_amount)} />
-
           <ClassInfo
             title={'Position'}
             info={info.map(i => ({ date: i.date, value: i.position }))}/>
@@ -232,6 +222,16 @@ export default class Sunspot extends Component {
           <FlaresInfo
             title={'Flares'}
             info={info}/>
+
+          <ChartInfo
+            title={'Sunspot Area [millionths]'}
+            labels={info.map(i => moment(new Date(i.date)).format('DD MMM YYYY').toString())}
+            data={info.map(i => i.area)}/>
+
+          <ChartInfo
+            title={'Number of Spots'}
+            labels={info.map(i => moment(new Date(i.date)).format('DD MMM YYYY').toString())}
+            data={info.map(i => i.sunspots_amount)} />
 
         </Columns>
       </div>
