@@ -74,7 +74,7 @@ const ClassInfo = ({ title, info }) => (
             return (
               <TableRow key={index} hover>
                 <TableCell>{ moment(new Date(row.date)).format('DD MMM YYYY').toString() }</TableCell>
-                <TableCell>{ row.value }</TableCell>
+                <TableCell>{ row.value || '-.-' }</TableCell>
               </TableRow>
             );
           })
