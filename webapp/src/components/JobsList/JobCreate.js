@@ -57,7 +57,7 @@ class JobCreate extends Component {
   constructor (props) {
     super(props)
     const sunspots = props.sunspots || []
-    this.state = { sunspots, filters: { flareClasses: [], position: [], start: '', end: '', flareIndex: false} }
+    this.state = { sunspots, filters: { flareClasses: [], position: [], start: '', end: '', numbers: '', flareIndex: false } }
   }
 
   handleChange = name => ({ target: { value } }) => {

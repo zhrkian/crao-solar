@@ -3,7 +3,7 @@ import axios from 'axios'
 import param from 'can-param'
 
 export default class Sunspots {
-  @observable filters = { flareClasses: [], position: [], start: '', end: '', flareIndex: false }
+  @observable filters = { flareClasses: [], position: [], start: '', end: '', numbers: '', flareIndex: false }
   @observable sunspots = []
   @observable selected = []
   @observable thinking = false
@@ -40,7 +40,7 @@ export default class Sunspots {
   @action
   async onFilters (filters) {
     if (!filters) {
-      this.filters = { flareClasses: [], position: [], start: '', end: '', flareIndex: false }
+      this.filters = { flareClasses: [], position: [], start: '', end: '', numbers: '', flareIndex: false }
     } else {
       this.filters = filters
     }

@@ -177,6 +177,29 @@ const DateFilter = ({ classes, start, end, onChange, readOnly }) => {
   )
 }
 
+
+const NumbersFilter = ({ numbers, onChange, readOnly }) => {
+  const onFilterChange = (name) => ({ target: { value }} ) => onChange({ [name]: value })
+
+  return (
+    <FormControl component='fieldset' style={{ width: '50%' }}>
+      <FormLabel component='legend'>{`Sunspot numbers`}</FormLabel>
+      <FormGroup row>
+        <TextField
+          id="numbers"
+          type="text"
+          disabled={readOnly}
+          value={numbers}
+          multiline
+          rows={3}
+          fullWidth
+          onChange={onFilterChange('numbers')}
+        />
+      </FormGroup>
+    </FormControl>
+  )
+}
+
 @withStyles(s)
 class SunspotFilters extends React.Component {
   constructor (props) {
@@ -228,6 +251,16 @@ class SunspotFilters extends React.Component {
     }
   }
 
+  handleNumbersFilterChange = value => {
+    const { filters } = this.state
+    const { onChange } = this.props
+    const newFilters = Object.assign(filters, value)
+    this.setState({ filters: newFilters })
+    if (onChange) {
+      onChange(newFilters)
+    }
+  }
+
   onApplyFilters = () => {
     const { filters } = this.state
     const { onApply } = this.props
@@ -236,7 +269,7 @@ class SunspotFilters extends React.Component {
 
   onResetFilters = () => {
     const { onReset } = this.props
-    const newFilters = { flareClasses: [], position: [], start: '', end: '', flareIndex: false}
+    const newFilters = { flareClasses: [], position: [], start: '', end: '', numbers: '', flareIndex: false }
     return this.setState({ filters: newFilters }, () => onReset(newFilters))
   }
 
@@ -270,6 +303,11 @@ class SunspotFilters extends React.Component {
                             onChange={this.handleFlareIndexFilterChange} />
         </div>
 
+        <div className={classes.filtersRow}>
+          <NumbersFilter {...filters}
+                         readOnly={readOnly}
+                         onChange={this.handleNumbersFilterChange} />
+        </div>
 
         {
           !readOnly && (

@@ -47,7 +47,7 @@ const update = (number, kind, date, image, info) =>
   })
 
 const applyFilters = ( filters = {} ) => {
-  const { flareClasses, position, start, end, flareIndex } = filters
+  const { flareClasses, position, start, end, flareIndex, numbers } = filters
   let conditions = {}
 
   if (flareClasses && flareClasses.length) conditions["info.flares.class"] = { $all : flareClasses }
@@ -62,6 +62,13 @@ const applyFilters = ( filters = {} ) => {
 
   if (flareIndex === 'true') {
     conditions["flareIndex"] = { $gt : 0.0 }
+  }
+
+  if (numbers) {
+    const matchedNumbers = numbers.match(/(\d+)/g)
+    if (matchedNumbers && matchedNumbers.length) {
+      conditions["number"] = { $in : matchedNumbers.map(n => parseInt(n)) }
+    }
   }
 
   return conditions
