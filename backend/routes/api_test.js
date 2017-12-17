@@ -93,12 +93,41 @@ router.get('/', wrap(function *(req, res) {
 
   // console.log(parseDates1)
 
-  c.queue(parseDates1.map(date => ({
-    uri: `https://solarmonitor.org/full_disk.php?date=${date.replace(/-/g, '')}&type=smdi_maglc`,
-    date,
-    type: 'smdi_maglc',
-    kind: 'solarmonitor'
-  })))
+  // До 2010-11-12  smdi_maglc
+  // После 2010-12-01 shmi_maglc
+  // c 2010 - 11 - 12 по 2010 - 12 - 01 gong_maglc
+
+  // const dates = ['2010-11-11', '2010-11-12', '2010-11-13', '2010-12-01', '2010-12-02']
+  const getDataType = date => {
+    const current = (new Date(date)).getTime()
+    const smdi_maglc = (new Date('2010-11-12').getTime())
+    const shmi_maglc = (new Date('2010-12-01').getTime())
+
+    if (current <= smdi_maglc) {
+      return 'smdi_maglc'
+    }
+
+    if (current >= shmi_maglc) {
+      return 'shmi_maglc'
+    }
+
+    return 'gong_maglc'
+  }
+
+  // dates.forEach(date => {
+  //   console.log(getDataType(date), date)
+  // })
+
+
+  c.queue(parseDates1.map(date => {
+    const dataType = getDataType(date)
+    return {
+      uri: `https://solarmonitor.org/full_disk.php?date=${date.replace(/-/g, '')}&type=${dataType}`,
+      date,
+      type: dataType,
+      kind: 'solarmonitor'
+    }
+  }))
 
   //
   // const parseDates2 = enumerateDaysBetweenDates('2010-08-12', '2010-08-15')
