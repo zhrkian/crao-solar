@@ -50,7 +50,7 @@ const applyFilters = ( filters = {} ) => {
   const { flareClasses, position, start, end, flareIndex, numbers } = filters
   let conditions = {}
 
-  if (flareClasses && flareClasses.length) conditions["info.flares.class"] = { $all : flareClasses }
+  if (flareClasses && flareClasses.length) conditions["info.flares.class"] = { $in : flareClasses }
   if (position && position.length) conditions["position"] = { $all : position }
 
   if (start) {

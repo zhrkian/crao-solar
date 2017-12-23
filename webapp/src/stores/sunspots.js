@@ -14,9 +14,16 @@ export default class Sunspots {
     this.getSunspotList().then()
   }
 
+  normalizeFilters = filters => {
+    const { flareClasses, position }  = filters
+    return { ...filters, flareClasses: flareClasses.map(f => f), position: position.map(p => p) }
+  }
+
   async getSunspotList (page = 0, perPage = 20, filters = {}) {
     const queryString = `?${param({ page: page + 1, perPage, filters })}`
+
     this.thinking = true
+
     try {
       const { data } = await axios.get(`/api/sunspots${queryString}`)
       const { sunspots, total, count  } = data || {}
@@ -29,12 +36,13 @@ export default class Sunspots {
     } catch (e) {
       this.error = 'Some error'
     }
+
     this.thinking = false
   }
 
   @action
   onPageChange (page, perPage) {
-    this.getSunspotList(page, perPage, this.filters).then()
+    this.getSunspotList(page, perPage, this.normalizeFilters(this.filters)).then()
   }
 
   @action

@@ -11,7 +11,7 @@ console.log(Tooltip)
 
 const s = theme => ({
   title: {
-    flex: '0 0 auto',
+    flex: '0 0 auto'
   },
   heading: {
     textTransform: 'uppercase'
@@ -29,10 +29,11 @@ const s = theme => ({
   }
 })
 
-const PanelToolbar = ({ classes, actions, title, collapsible, collapsed, onToggle }) =>
+const PanelToolbar = ({ classes, actions, title, subtitle, collapsible, collapsed, onToggle }) =>
   <Toolbar className={ classes.root }>
     <div className={ classes.title }>
       <Typography type='body2' className={ classes.heading }>{ title }</Typography>
+      <Typography type='caption'>{ subtitle }</Typography>
     </div>
     <div className={ classes.spacer }/>
     <div className={ classes.actions }>

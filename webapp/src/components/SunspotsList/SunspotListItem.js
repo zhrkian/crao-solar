@@ -80,7 +80,7 @@ class SunspotListItem extends Component {
             maxFlare ? (
               <div>
                 <p>{maxFlare['class']}{maxFlare.value}</p>
-                <p>{maxFlare.date} {maxFlare.time}</p>
+                <p>{moment(new Date(maxFlare.date)).format('DD MMM YYYY')} {maxFlare.time}</p>
               </div>
             ) : '-.-'
           }

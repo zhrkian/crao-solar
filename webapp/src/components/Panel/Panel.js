@@ -53,6 +53,7 @@ class Panel extends React.Component {
     const {
       classes,
       title,
+      subtitle,
       actions,
       dense,
       children,
@@ -68,7 +69,7 @@ class Panel extends React.Component {
         <Paper className={classes.root} elevation={2}>
           {
             title &&
-            <PanelToolbar title={title} actions={actions} collapsible={collapsible} collapsed={!open} onToggle={this.onToggle} />
+            <PanelToolbar title={title} subtitle={subtitle} actions={actions} collapsible={collapsible} collapsed={!open} onToggle={this.onToggle} />
           }
           <div className={dense ? classes.bodyWrapperDense : classes.bodyWrapper}>
             <Collapse in={open} transitionDuration="auto" unmountOnExit>

@@ -41,8 +41,8 @@ const s = theme => ({
     justifyContent: 'center'
   },
   image: {
-    height: 300,
-    width: 300,
+    height: 681,
+    width: 681,
   },
   slider: {
     marginLeft: theme.spacing.unit * 3,
@@ -59,13 +59,14 @@ const ChartInfo = ({ title, labels, data }) => {
   )
 }
 
-const ClassInfo = ({ title, info }) => (
-  <Panel title={title} collapsible>
+const ClassInfo = ({ title, subtitle, header, info }) => (
+  <Panel title={title} subtitle={subtitle} collapsible>
     <Table>
       <TableHead>
         <TableRow>
-          <TableCell>{ 'Date' }</TableCell>
-          <TableCell>{ 'Class' }</TableCell>
+          {
+            header.map(h => <TableCell key={h}>{ h }</TableCell>)
+          }
         </TableRow>
       </TableHead>
       <TableBody>
@@ -84,7 +85,7 @@ const ClassInfo = ({ title, info }) => (
   </Panel>
 )
 
-const FlaresInfo = ({ title, info }) => {
+const FlaresInfo = ({ title, subtitle, info }) => {
   const flares = []
 
   info.forEach(i => {
@@ -101,7 +102,7 @@ const FlaresInfo = ({ title, info }) => {
   if (!flares.length) return null
 
   return (
-    <Panel title={title} collapsible>
+    <Panel title={title} subtitle={subtitle} collapsible>
       <Table>
         <TableHead>
           <TableRow>
@@ -145,8 +146,6 @@ class ImagesSlider extends Component {
       adaptiveHeight: true
     }
 
-    console.log(info)
-
     return (
       <div className={classes.slider}>
         <Slider {...settings}>
@@ -188,10 +187,13 @@ export default class Sunspot extends Component {
     const {
       thinking,
       number,
+      position,
+      flareIndex,
+      maxFlare,
       info
     } = this.store
 
-
+    console.log(this.store)
 
     if (thinking) {
       return <Panel>Thinking...</Panel>
@@ -201,6 +203,14 @@ export default class Sunspot extends Component {
       return <Panel title={'Result'}>No info for this sunspot ;(</Panel>
     }
 
+    const flareInfoString =
+      (!!flareIndex && !!maxFlare)
+      && (
+      <span>
+        Flare index {`${flareIndex.toFixed(3)}`} and Maximal flare {`${maxFlare['class']}${maxFlare['value']}`} at {`${moment(new Date(maxFlare['date'])).format('D MMM YYYY')} ${maxFlare['time']}`}
+      </span>
+      )
+
     return (
       <div style={{flexGrow: 1}}>
         <Columns
@@ -208,19 +218,24 @@ export default class Sunspot extends Component {
           subheading={<ImagesSlider info={info}/>}>
 
           <ClassInfo
-            title={'Position'}
+            title={`Position`}
+            subtitle={!!position && `Average sunspot position "${position}"`}
+            header={['Date', 'Coordinates']}
             info={info.map(i => ({ date: i.date, value: i.position }))}/>
 
           <ClassInfo
             title={'McIntosh Class'}
+            header={['Date', 'Class']}
             info={info.map(i => ({ date: i.date, value: i.macintosh_class }))}/>
 
           <ClassInfo
             title={'Hale Class'}
+            header={['Date', 'Class']}
             info={info.map(i => ({ date: i.date, value: i.hale_class }))}/>
 
           <FlaresInfo
             title={'Flares'}
+            subtitle={flareInfoString}
             info={info}/>
 
           <ChartInfo
