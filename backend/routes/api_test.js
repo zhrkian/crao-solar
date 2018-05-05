@@ -11,6 +11,8 @@ const SolarMonitor          = require('../modules/solarmonitor')
 
 const SolarMonitorParser    = require('../modules/parsers/solarmonitor')
 
+//bump
+
 
 var enumerateDaysBetweenDates = function(startDate, endDate) {
   let currDate = moment(startDate).startOf('day')
@@ -145,15 +147,19 @@ router.get('/', wrap(function *(req, res) {
   return res.json({ success: true })
 }))
 
-router.get('/list', wrap(function *(req, res) {
-  const list = yield sunspot.index()
-  return res.json({ success: true, sunspots: list.map(sunspotView) })
+// router.get('/list', wrap(function *(req, res) {
+//   const list = yield sunspot.index()
+//   return res.json({ success: true, sunspots: list.map(sunspotView) })
+// }))
+
+router.get('/super', wrap(function *(req, res) {
+  return res.json({ success: true })
 }))
 
-
-router.get('/doc', wrap(function *(req, res) {
-  const result = yield writeTable('1ax6w66cOvCxgNUcjrCld8DIP3QWiVc0OxDMbEV8YmVg', '0', [['a', 'a', 'a', 'a', 'a', 'a']], ['a', 'a', 'a', 'a', 'a', 'a'])
-  return res.json({ success: result })
-}))
+//
+// router.get('/doc', wrap(function *(req, res) {
+//   const result = yield writeTable('1ax6w66cOvCxgNUcjrCld8DIP3QWiVc0OxDMbEV8YmVg', '0', [['a', 'a', 'a', 'a', 'a', 'a']], ['a', 'a', 'a', 'a', 'a', 'a'])
+//   return res.json({ success: result })
+// }))
 
 module.exports = router
