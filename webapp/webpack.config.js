@@ -21,7 +21,7 @@ module.exports = {
     disableHostCheck: true,
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: 'http://solar.dev.argh.team',  //'http://localhost:5000',
         secure: false
       }
     }
