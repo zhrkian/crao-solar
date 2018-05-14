@@ -15,7 +15,7 @@ module.exports = {
     hot: true,
     contentBase: path.resolve(__dirname, "dist"),
     port: 8008,
-    host: "argh.local",
+    host: 'localhost',  //"argh.local",
     publicPath: "/",
     historyApiFallback: true,
     disableHostCheck: true,
