@@ -1,1 +1,0 @@
-I sorted out the initial lessons on JS. Now I'm testing Git
