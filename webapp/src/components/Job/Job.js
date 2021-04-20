@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { observer } from 'mobx-react'
-import { withStyles } from 'material-ui/styles'
-import Button from 'material-ui/Button'
-import Paper from 'material-ui/Paper'
-import Chip from 'material-ui/Chip'
-import { SunspotsFilter } from '../Filters'
-import Typography from 'material-ui/Typography'
+import { withStyles } from '@material-ui/core/styles'
+import { Button, Paper, Chip, Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
 import CsvCreator from 'react-csv-creator'
-import JobStore from '../../stores/job'
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
+
+import { SunspotsFilter } from '../Filters'
 import Columns, { ColumnsHeading } from '../Columns'
 import Panel, {PanelToolbar} from '../Panel'
+import JobStore from '../../stores/job'
 
 const s = theme => ({
   root: {

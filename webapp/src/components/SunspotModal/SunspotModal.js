@@ -1,13 +1,18 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import { withStyles } from 'material-ui/styles'
-import Dialog, { DialogContent } from 'material-ui/Dialog'
-import Typography from 'material-ui/Typography'
-import AppBar from 'material-ui/AppBar'
-import Toolbar from 'material-ui/Toolbar'
-import IconButton from 'material-ui/IconButton'
-import CloseIcon from 'material-ui-icons/Close'
-import Slide from 'material-ui/transitions/Slide'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  AppBar,
+  Dialog,
+  DialogContent,
+  Typography,
+  Toolbar,
+  IconButton,
+  Slide
+} from '@material-ui/core'
+import {
+  Close as CloseIcon
+} from '@material-ui/icons'
 import s from './SunspotModal.styles'
 
 import Sunspot from '../Sunspot'

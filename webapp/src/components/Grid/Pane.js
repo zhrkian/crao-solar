@@ -1,5 +1,5 @@
 import React from 'react'
-import Card, { CardHeader, CardContent } from 'material-ui/Card'
+import { Card, CardHeader, CardContent } from '@material-ui/core'
 
 const Pane = ({ style, children, title, subtitle, disabled }) => (
   <Card style={Object.assign({ margin: 10 }, style || {})}>

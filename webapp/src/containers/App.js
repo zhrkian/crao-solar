@@ -1,7 +1,6 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
+import { withStyles } from '@material-ui/core/styles'
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
-import DevTools from 'mobx-react-devtools'
 
 import Job from './Job'
 import Jobs from './Jobs'

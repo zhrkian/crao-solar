@@ -1,7 +1,11 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
-import { TableHead, TableRow, TableCell } from 'material-ui/Table'
-import Checkbox from 'material-ui/Checkbox'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Checkbox,
+  TableHead,
+  TableRow,
+  TableCell
+} from '@material-ui/core'
 import s from './ListHeader.styles'
 
 const ListHeader = props => {

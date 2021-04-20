@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { withStyles } from 'material-ui/styles'
-import Paper from 'material-ui/Paper'
-import Table, {
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Paper,
+  Table,
   TableBody,
   TableFooter,
   TablePagination
-} from 'material-ui/Table'
+} from '@material-ui/core'
 
 const s = theme => ({
   root: {},

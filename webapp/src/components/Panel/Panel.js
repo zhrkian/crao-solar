@@ -1,8 +1,10 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
-import Paper from 'material-ui/Paper'
-import Collapse from 'material-ui/transitions/Collapse'
-import {PanelToolbar} from '../Panel'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Paper,
+  Collapse
+} from '@material-ui/core'
+import { PanelToolbar } from '../Panel'
 import { ColumnItem } from '../Columns'
 
 const style = theme => ({

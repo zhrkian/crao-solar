@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
-import { withStyles } from 'material-ui/styles'
-import Dialog, { DialogContent, DialogTitle, DialogActions } from 'material-ui/Dialog'
-import TextField from 'material-ui/TextField'
-import Button from 'material-ui/Button'
-import Chip from 'material-ui/Chip'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Dialog, DialogContent, DialogTitle, DialogActions,
+  TextField, Button, Chip
+} from '@material-ui/core'
 import { SunspotsFilter } from '../Filters'
 
 const s = theme => ({

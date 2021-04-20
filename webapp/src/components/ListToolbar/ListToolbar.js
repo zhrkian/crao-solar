@@ -1,12 +1,19 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
-import Toolbar from 'material-ui/Toolbar'
-import Typography from 'material-ui/Typography'
-import IconButton from 'material-ui/IconButton'
-import Tooltip from 'material-ui/Tooltip'
-import AddBoxIcon from 'material-ui-icons/AddBox'
-import FilterListIcon from 'material-ui-icons/FilterList'
-import Collapse from 'material-ui/transitions/Collapse'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Toolbar,
+  Typography,
+  IconButton,
+  Tooltip,
+  Collapse
+} from '@material-ui/core'
+import {
+  AddBox,
+  FilterList
+} from '@material-ui/icons'
+// import AddBox from 'material-ui-icons/AddBox'
+// import FilterListIcon from 'material-ui-icons/FilterList'
+// import Collapse from 'material-ui/transitions/Collapse'
 
 const s = theme => ({
   root: {
@@ -62,7 +69,7 @@ class ListToolbar extends React.Component {
               selected > 0 && (
                 <Tooltip title="Create Job">
                   <IconButton aria-label="Create Job">
-                    <AddBoxIcon />
+                    <AddBox />
                   </IconButton>
                 </Tooltip>
               )
@@ -71,7 +78,7 @@ class ListToolbar extends React.Component {
               this.props.filters && (
                 <Tooltip title="Filter list">
                   <IconButton color={ open ? 'accent' : 'default' } aria-label="Filter list" onClick={this.onToggleFilterPanel}>
-                    <FilterListIcon />
+                    <FilterList />
                   </IconButton>
                 </Tooltip>
               )

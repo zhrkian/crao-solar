@@ -3,15 +3,13 @@ import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import { observer } from 'mobx-react'
 import Slider from 'react-slick'
-import Preload from 'react-preload'
-import PreloaderIcon, {ICON_TYPE} from 'react-preloader-icon'
-import { withStyles } from 'material-ui/styles'
-import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table'
-import SunspotStore from '../../stores/sunspot'
+import { Line } from 'react-chartjs'
+import { withStyles } from '@material-ui/core/styles'
+import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core'
 import Columns , { ColumnsHeading } from '../Columns'
 import Panel, { PanelToolbar } from '../Panel'
+import SunspotStore from '../../stores/sunspot'
 
-import { Line } from 'react-chartjs'
 
 const chart = {
   data: {
@@ -192,8 +190,6 @@ export default class Sunspot extends Component {
       maxFlare,
       info
     } = this.store
-
-    console.log(this.store)
 
     if (thinking) {
       return <Panel>Thinking...</Panel>

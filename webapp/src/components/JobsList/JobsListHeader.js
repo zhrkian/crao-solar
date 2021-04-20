@@ -1,7 +1,8 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
-import { TableHead, TableRow, TableCell } from 'material-ui/Table'
-import Checkbox from 'material-ui/Checkbox'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  TableHead, TableRow, TableCell, Checkbox
+} from '@material-ui/core'
 
 const s = theme => ({})
 

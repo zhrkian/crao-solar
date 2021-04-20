@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { withRouter } from 'react-router-dom'
-import { withStyles } from 'material-ui/styles'
-import Checkbox from 'material-ui/Checkbox'
-import { TableCell, TableRow } from 'material-ui/Table'
+import { withStyles } from '@material-ui/core/styles'
+import { TableCell, TableRow, Checkbox } from '@material-ui/core'
 
 const s = theme => ({
   root: {

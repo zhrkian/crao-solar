@@ -1,11 +1,15 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
-import Typography from 'material-ui/Typography'
-import Toolbar from 'material-ui/Toolbar'
-import IconButton from 'material-ui/IconButton'
-import ExpandMore from 'material-ui-icons/ExpandMore'
-import ExpandLess from 'material-ui-icons/ExpandLess'
-import Tooltip from 'material-ui/Tooltip'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Toolbar,
+  Typography,
+  IconButton,
+  Tooltip
+} from '@material-ui/core'
+import {
+  ExpandMore,
+  ExpandLess
+} from '@material-ui/icons'
 
 console.log(Tooltip)
 

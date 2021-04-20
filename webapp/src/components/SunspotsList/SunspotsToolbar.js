@@ -1,12 +1,17 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
-import Toolbar from 'material-ui/Toolbar'
-import Typography from 'material-ui/Typography'
-import IconButton from 'material-ui/IconButton'
-import Tooltip from 'material-ui/Tooltip'
-import AddBoxIcon from 'material-ui-icons/AddBox'
-import FilterListIcon from 'material-ui-icons/FilterList'
-import Collapse from 'material-ui/transitions/Collapse'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Collapse,
+  Toolbar,
+  Tooltip,
+  Typography,
+  IconButton
+} from '@material-ui/core'
+
+import {
+  AddBox as AddBoxIcon,
+  FilterList as FilterListIcon
+} from '@material-ui/icons'
 
 import { JobCreate } from'../JobsList'
 

@@ -1,10 +1,12 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
-import Toolbar from 'material-ui/Toolbar'
-import Typography from 'material-ui/Typography'
-import IconButton from 'material-ui/IconButton'
-import Tooltip from 'material-ui/Tooltip'
-import AddBoxIcon from 'material-ui-icons/AddBox'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  Toolbar,
+  Typography,
+  IconButton,
+  Tooltip
+} from '@material-ui/core'
+import { AddBox as AddBoxIcon } from '@material-ui/icons'
 
 import { JobCreate } from './index'
 

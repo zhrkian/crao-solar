@@ -1,9 +1,11 @@
 import React from 'react'
-import { withStyles } from 'material-ui/styles'
-import { FormGroup, FormLabel, FormControl, FormControlLabel } from 'material-ui/Form'
-import TextField from 'material-ui/TextField'
-import Button from 'material-ui/Button'
-import Checkbox from 'material-ui/Checkbox'
+import { withStyles } from '@material-ui/core/styles'
+import {
+  FormGroup, FormLabel, FormControl, FormControlLabel,
+  TextField,
+  Button,
+  Checkbox
+} from '@material-ui/core'
 
 const s = theme => ({
   root: {
